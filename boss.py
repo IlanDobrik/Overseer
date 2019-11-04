@@ -13,7 +13,7 @@ def alerts(data, worker):
     blacklist = set_blacklist()
     for pack in data:
         if pack['dstIp'] in blacklist:
-
+            pass
 
 def set_blacklist():
     blacklist = {}
