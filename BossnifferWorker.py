@@ -5,20 +5,61 @@ import requests
 import socket
 import os
 import re
-
+from scapy.all import *
+import time
 
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
-
 
 summery_packets = []
 LOCAL_IP = ""
 SERVER_ADDR = "192.168.8.172"
 SERVER_PORT = 1313
-# config file ^
+global summery_packets, LOCAL_IP, SERVER_ADDR, SERVER_PORT
 
+
+def spy(packet):
+    return IP in packet and (TCP in packet or UDP in packet)
+
+def set_local_ip():
+    msg = IP(dst="8.8.8.8")
+    LOCAL_IP = msg[IP].src
+
+def checked_before(IP):
+    # checking if IP has been checked before by the geo-location service
+    # to reduce traffic
+    for pack in summery_packets:
+        if pack["dstIp"] == IP:
+            return pack["locationIp"]
+
+def get_location(IP):
+    # cant show geo-location if ip is invalid
+    if "192.168." in IP or "10." in IP:
+        return "Private Network"
+
+    # sending request to a geo-location service that returns a json
+    checked = checked_before(IP)
+    if not checked:
+        response = requests.get("http://ip-api.com/json/"+IP)
+        data = json.loads(response.text)
+        if "country" in data:
+            return data["country"]
+        else:
+            return "ERROR"
+
+def send_data(msg):
+    # Create a non-specific UDP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    server_address = (SERVER_ADDR, SERVER_PORT)
+    sock.connect(server_address)
+
+    sock.sendto(msg.encode(), server_address)
+
+    sock.close()
 
 def get_program():
+    # Returning dir of port-to-program from os
+    ''' !!! Requires administrator rights !!! '''
     string = os.popen('netstat -nb').read()
 
     rx = re.compile(r'\[([^\[\]]+)\]')
@@ -34,50 +75,15 @@ def get_program():
         fixed_ports.append(port[1:])
 
     dictionary = dict(zip(fixed_ports, apps))
-
     return dictionary
 
-
-def checked_before(IP):
-    global summery_packets
-    for pack in summery_packets:
-        if pack["dstIp"] == IP:
-            return pack["locationIp"]
-
-
-def set_local_ip():
-    global LOCAL_IP
-
-    msg = IP(dst="8.8.8.8")
-    LOCAL_IP = msg[IP].src
-
-
-def get_location(IP):
-    if "192.168." in IP or "10." in IP:
-        return "Private Network"
-
-    checked = checked_before(IP)
-    if not checked:
-        response = requests.get("http://ip-api.com/json/"+IP)
-        data = json.loads(response.text)
-        if "country" in data:
-            return data["country"]
-        else:
-            print(data)
-            return "ERROR"
-
-
-def spy(packet):
-    return IP in packet and (TCP in packet or UDP in packet)
-
-
 def summarize(packet):
-    global LOCAL_IP
-    global summery_packets
-
-    outOrIn = packet[IP].src == LOCAL_IP  # if incoming - False, outgoing - True
+    # setting size, dstip, and outorin
+    size = len(packet)
     dst_ip = packet[IP].dst
+    outOrIn = packet[IP].src == LOCAL_IP  # if incoming - False, outgoing - True
 
+    # setting port and location
     if outOrIn:
         if TCP in packet:
             port = packet[TCP].dport
@@ -90,59 +96,39 @@ def summarize(packet):
         else:
             port = packet[UDP].sport
         location = get_location(packet[IP].src)
-    size = len(packet)
+    
+    # setting program
+    try:
+        prog = get_program()[port]
+    except:
+        prog = "Unknown"
 
+    # appending summerized packet
     pack = {
+        'prog': prog,  
         'dstIp': dst_ip,
         'locationIp': location,
         'outOrIn': outOrIn,
         'remotePort': port,
         'sizeOfPacket': size
-    }
+        }
     summery_packets.append(pack)
 
-
-def send_data(msg):
-    # Create a non-specific UDP socket
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_address = (SERVER_ADDR, SERVER_PORT)
-    sock.connect(server_address)
-
-    sock.sendto(msg.encode(), server_address)
-
-    sock.close()
-
-
 def main():
-    global summery_packets
-
-    get_prog()
-
     set_local_ip()
+    sniff_count = 100
 
     while True:
+        start = time.perf_counter()
         summery_packets = []
-        packets = sniff(count=100, lfilter=spy)
+        packets = sniff(count=sniff_count, lfilter=spy)
 
         for packet in packets:
             summarize(packet)
 
-        text = json.dumps(summery_packets)
-
-        send_data(text)
+        send_data(json.dumps(summery_packets))
+        print("Sent {} summerized packets\nTook {} second(s)".format(sniff_count, time.perf_counter() - start))
 
 
 if __name__ == '__main__':
     main()
-
-
-"""
-{
-    'prog': discord.exe 
-    'dstIp': 'a string',
-    'locationIp': 'a string',
-    'outOrIn': True,  # or false
-    'remotePort': 99,  # a number
-    'sizeOfPacket': 95  # a number
-}
-"""
