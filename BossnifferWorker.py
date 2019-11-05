@@ -12,11 +12,11 @@ import time
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
 
+global summery_packets, LOCAL_IP, SERVER_ADDR, SERVER_PORT
 summery_packets = []
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
-global summery_packets, LOCAL_IP, SERVER_ADDR, SERVER_PORT
 
 
 def spy(packet):
