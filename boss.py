@@ -1,13 +1,38 @@
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import socket
 import json
 import datetime
+import time
+import threading
 
+global LISTEN_PORT,  SETTINGS, INCOMING, OUTGOING, ALERTS
 LISTEN_PORT = 1313
 SETTINGS = r"C:\Users\magshimim\Desktop\settings.dat"
 INCOMING = {}
 OUTGOING = {}
 ALERTS = []
 
+# site related
+class Site(BaseHTTPRequestHandler):
+	def do_GET(self):
+		self.send_response(200)
+		self.wfile.write(bytes(page, "utf-8"))
+
+def run_site():
+    hostName = ""
+    hostPort = 80
+
+    # running server
+    site = HTTPServer((hostName, hostPort), Site)
+    print(time.asctime(), "Website Starts - %s:%s" % (hostName, hostPort))
+    try:
+        site.serve_forever()
+    except:
+        pass
+    
+    # closing server
+    site.server_close()
+    print(time.asctime(), "Website Stops - %s:%s" % (hostName, hostPort))
 
 def alerts(data, worker):
     blacklist = set_blacklist()
@@ -133,11 +158,11 @@ def get_msg():
 
 
 def main():
-    global INCOMING
-    global OUTGOING
+    # opening server
+    t = threading.Thread(target=run_site, daemon=True)
+    t.start()
 
     workers = ip_worker()
-
     while True:
         INCOMING = {}
         OUTGOING = {}
