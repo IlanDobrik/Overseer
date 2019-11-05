@@ -1,5 +1,6 @@
-from scapy3k.all import *
-from scapy3k.layers.inet import IP, TCP, UDP
+#from scapy3k.all import *
+#from scapy3k.layers.inet import IP, TCP, UDP
+import sys
 import json
 import requests
 import socket
@@ -13,7 +14,7 @@ import time
 
 summery_packets = []
 LOCAL_IP = ""
-SERVER_ADDR = "192.168.8.172"
+SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
 global summery_packets, LOCAL_IP, SERVER_ADDR, SERVER_PORT
 
@@ -21,9 +22,21 @@ global summery_packets, LOCAL_IP, SERVER_ADDR, SERVER_PORT
 def spy(packet):
     return IP in packet and (TCP in packet or UDP in packet)
 
-def set_local_ip():
+def set_globals():
     msg = IP(dst="8.8.8.8")
     LOCAL_IP = msg[IP].src
+
+    for arg in sys.argv:
+        # searching for port
+        if type(arg) is int and 0 < arg < 65536:
+            SERVER_PORT = arg
+        # searching for server address
+        else:
+            result = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", arg)  
+            if type(arg) is str and result:
+                SERVER_ADDR = result.group()
+
+
 
 def checked_before(IP):
     # checking if IP has been checked before by the geo-location service
@@ -115,8 +128,9 @@ def summarize(packet):
     summery_packets.append(pack)
 
 def main():
-    set_local_ip()
+    set_globals()
     sniff_count = 100
+
 
     while True:
         start = time.perf_counter()
