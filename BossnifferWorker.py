@@ -9,8 +9,6 @@ import re
 from scapy.all import *
 import time
 
-# is this working?
-
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
 
