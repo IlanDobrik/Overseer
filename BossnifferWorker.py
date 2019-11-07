@@ -9,8 +9,6 @@ import re
 from scapy.all import *
 import time
 
-# is this working?
-
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
 
@@ -37,8 +35,6 @@ def set_globals():
             result = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", arg)  
             if type(arg) is str and result:
                 SERVER_ADDR = result.group()
-
-
 
 def checked_before(IP):
     # checking if IP has been checked before by the geo-location service
@@ -132,7 +128,6 @@ def summarize(packet):
 def main():
     set_globals()
     sniff_count = 100
-
 
     while True:
         start = time.perf_counter()
