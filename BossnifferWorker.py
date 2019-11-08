@@ -12,7 +12,6 @@ import time
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
 
-global summery_packets, LOCAL_IP, SERVER_ADDR, SERVER_PORT
 summery_packets = []
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
@@ -117,20 +116,19 @@ def summarize(packet):
         prog = "Unknown"
 
     # appending summerized packet
-    pack = {
+    summery_packets.append({
         'prog': prog,  
         'dstIp': dst_ip,
         'locationIp': location,
         'outOrIn': outOrIn,
         'remotePort': port,
         'sizeOfPacket': size
-        }
-    summery_packets.append(pack)
+        })
 
 def main():
+    global summery_packets
     set_globals()
-    sniff_count = 100
-
+    sniff_count = 2
 
     while True:
         start = time.perf_counter()
