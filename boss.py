@@ -5,18 +5,16 @@ import datetime
 import time
 import threading
 
-global LISTEN_PORT,  SETTINGS, INCOMING, OUTGOING, ALERTS
 LISTEN_PORT = 1313
 SETTINGS = r"C:\Users\magshimim\Desktop\settings.dat"
 INCOMING = {}
 OUTGOING = {}
-ALERTS = []
 
 # site related
 class Site(BaseHTTPRequestHandler):
 	def do_GET(self):
 		self.send_response(200)
-		self.wfile.write("Hey", "utf-8")
+		self.wfile.write(bytes("Test", "utf-8"))
 
 def run_site():
     hostName = ""
@@ -29,28 +27,9 @@ def run_site():
         site.serve_forever()
     except:
         pass
-    
     # closing server
     site.server_close()
     print(time.asctime(), "Website Stops - %s:%s" % (hostName, hostPort))
-
-def alerts(data, worker):
-    blacklist = set_blacklist()
-    for pack in data:
-        if pack['dstIp'] in blacklist:
-            pass
-
-def set_blacklist():
-    blacklist = {}
-    with open(SETTINGS, "r") as file:
-        text = file.read()
-    text = text[text.find("BLACKLIST = ") + len("BLACKLIST = "):]
-    sperated = text.split(",")
-    for item in sperated:
-        item = item.split(":")
-        blacklist[item[0]] = item[1]
-
-    return blacklist
 
 def country_traffic(data):
     dict = {}
@@ -112,17 +91,16 @@ def get_msg():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_address = ('', LISTEN_PORT)
     sock.bind(server_address)
-    client_msg, client_addr = sock.recvfrom(1024 * 10)
+    client_msg, client_addr = sock.recvfrom(1024)
 
     # Closing the socket
     sock.close()
     return client_msg.decode(), client_addr
 
 def main():
-    # starting website
-    t = threading.Thread(target=run_site, daemon=True)
-    t.start()
+    global INCOMING, OUTGOING
 
+    print("started")
     while True:
         INCOMING = {}
         OUTGOING = {}
@@ -132,10 +110,8 @@ def main():
             client_msg, client_addr = get_msg()
             data += json.loads(client_msg)
             agent_traffic(json.loads(client_msg), client_addr[0])
+            print(data)
 
-        print(OUTGOING)
-        print(INCOMING)
-        #print(data)
 
 if __name__ == '__main__':
     main()

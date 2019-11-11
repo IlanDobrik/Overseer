@@ -12,8 +12,7 @@ import time
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
 
-global summery_packets, LOCAL_IP, SERVER_ADDR, SERVER_PORT
-summery_packets = []
+summerized_packets = []
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
@@ -39,7 +38,7 @@ def set_globals():
 def checked_before(IP):
     # checking if IP has been checked before by the geo-location service
     # to reduce traffic
-    for pack in summery_packets:
+    for pack in summerized_packets:
         if pack["dstIp"] == IP:
             return pack["locationIp"]
 
@@ -123,21 +122,23 @@ def summarize(packet):
         'remotePort': port,
         'sizeOfPacket': size
         }
-    summery_packets.append(pack)
+    summerized_packets.append(pack)
 
 def main():
+    global summerized_packets
+
     set_globals()
-    sniff_count = 100
+    sniff_count = 10
 
     while True:
         start = time.perf_counter()
-        summery_packets = []
+        summerized_packets = []
         packets = sniff(count=sniff_count, lfilter=spy)
 
         for packet in packets:
             summarize(packet)
 
-        send_data(json.dumps(summery_packets))
+        send_data(json.dumps(summerized_packets))
         print("Sent {} summerized packets\nTook {} second(s)".format(sniff_count, time.perf_counter() - start))
 
 
