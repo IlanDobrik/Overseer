@@ -12,7 +12,11 @@ import time
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
 
+<<<<<<< HEAD
 summerized_packets = []
+=======
+summery_packets = []
+>>>>>>> c7cb924bbf06699f8fe0429d3f18e5e72e1f4b76
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
@@ -114,7 +118,7 @@ def summarize(packet):
         prog = "Unknown"
 
     # appending summerized packet
-    pack = {
+    summery_packets.append({
         'prog': prog,  
         'dstIp': dst_ip,
         'locationIp': location,
