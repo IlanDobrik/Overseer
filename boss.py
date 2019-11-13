@@ -7,53 +7,83 @@ import time
 import threading
 
 LISTEN_PORT = 1313
-SETTINGS = r"C:\Users\magshimim\Desktop\settings.dat"
 INCOMING = {}
 OUTGOING = {}
+ALERTS = {}
+PAGE_EX = r"./template.html"
+PAGE_OUT = r"./pages/"
 data = []
 
-# site related
+def html_page():
+    with open(PAGE_EX, 'r') as file:
+        copy = file.read()
+    # ------------ TIME -------------
+    copy.replace("%%TIMESTAMP%%", str(time.asctime()), 1)
+    # ------------- IN --------------
+    copy.replace("%%AGENT_NAMES%%", str(INCOMING.keys()), 1)
+    copy.replace("%%AGENTS_TRAFFIC_IN%%", str(INCOMING.values()), 1)
+    # ------------- OUT -------------
+    copy.replace("%%AGENT_NAMES%%", str(OUTGOING.keys()),1)
+    copy.replace("%%AGENTS_TRAFFIC_OUT%%", str(OUTGOING.values()) , 1)
+    # ---------- COUNTRIES ----------
+    copy.replace("%%COUNTRIES_NAMES%%", country_traffic().keys(), 1)
+    copy.replace("%%COUNTRIES_TRAFFIC%%", country_traffic().values(), 1)
+    # ----------- DSTIP -------------
+    copy.replace("%%IP_ADDERS%%", dstip_traffic().keys() , 1)
+    copy.replace("%%IPS_VALUES%%", dstip_traffic().values() , 1)
+    # ------------ PROG -------------
+    copy.replace("%%APPS_NAMES%%", program_traffic().keys(), 1)
+    copy.replace("%%APPS_VALUES%%", program_traffic().values(), 1)
+    # ------------ PORTS ------------
+    copy.replace("%%PORTS_NUMBERS%%", port_traffic().keys(), 1)
+    copy.replace("%%PORTS_TRAFFIC%%", program_traffic().values(), 1)
+    # ------------ ALERTS -----------
+    copy.replace("%%ALERTS%%", str(ALERTS), 1)
+    with open(PAGE_OUT + str(time.asctime()), 'w') as file:
+        file.write(copy)
+
+# site
 @route('/')
 def home(request):
     return "XD"
 
 def country_traffic():
-    dict = {}
+    l = {}
     for pack in data:
         if pack["locationIp"] == "None":
             print("ERROR: "+pack)
-        if pack["locationIp"] not in dict:
-            dict[pack["locationIp"]] = pack["sizeOfPacket"]
+        if pack["locationIp"] not in l:
+            l[pack["locationIp"]] = pack["sizeOfPacket"]
         else:
-            dict[pack["locationIp"]] += pack["sizeOfPacket"]
-    print(dict)
+            l[pack["locationIp"]] += pack["sizeOfPacket"]
+    return l
 
 def dstip_traffic():
-    dict = {}
+    l = {}
     for pack in data:
-        if pack["dstIp"] not in dict:
-            dict[pack["dstIp"]] = pack["sizeOfPacket"]
+        if pack["dstIp"] not in l:
+            l[pack["dstIp"]] = pack["sizeOfPacket"]
         else:
-            dict[pack["dstIp"]] += pack["sizeOfPacket"]
-    print(dict)
+            l[pack["dstIp"]] += pack["sizeOfPacket"]
+    return l
 
 def program_traffic():
-    dict = {}
+    l = {}
     for pack in data:
-        if pack["program"] not in dict:
-            dict[pack["program"]] = pack["sizeOfPacket"]
+        if pack["program"] not in l:
+            l[pack["program"]] = pack["sizeOfPacket"]
         else:
-            dict[pack["program"]] += pack["sizeOfPacket"]
-    print(dict)
+            l[pack["program"]] += pack["sizeOfPacket"]
+    return l
 
 def port_traffic():
-    dict = {}
+    l = {}
     for pack in data:
-        if pack["remotePort"] not in dict:
-            dict[pack["remotePort"]] = pack["sizeOfPacket"]
+        if pack["remotePort"] not in l:
+            l[pack["remotePort"]] = pack["sizeOfPacket"]
         else:
-            dict[pack["remotePort"]] += pack["sizeOfPacket"]
-    print(dict)
+            l[pack["remotePort"]] += pack["sizeOfPacket"]
+    return l
 
 def agent_traffic(worker):
     byte_sum = 0
@@ -73,16 +103,6 @@ def agent_traffic(worker):
     else:
         INCOMING[worker] += byte_sum
 
-def get_msg_UDP():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_address = ('', LISTEN_PORT)
-    sock.bind(server_address)
-    client_msg, client_addr = sock.recvfrom(1024)
-
-    # Closing the socket
-    sock.close()
-    return client_msg.decode(), client_addr
-
 class ClientThread(threading.Thread):
     def __init__(self, clientAddress, clientsocket):
         threading.Thread.__init__(self)
@@ -100,6 +120,7 @@ class ClientThread(threading.Thread):
             except Exception as e:
                 print(e)
                 break
+        ALERTS[self.caddress] = "Disconnected"
         print (self.caddress , "disconnected")
 
 def listen4clients():
@@ -126,10 +147,7 @@ def main():
 
         while len(data) < 5:
             time.sleep(1)
-        print("Writing")
-        with open("./output.txt", 'w') as f:
-            f.write(json.dumps(data))
-        #upload to site    
+        html_page()
 
 if __name__ == '__main__':
     main()
