@@ -1,5 +1,3 @@
-#from scapy3k.all import *
-#from scapy3k.layers.inet import IP, TCP, UDP
 import sys
 import json
 import requests
@@ -9,14 +7,10 @@ import re
 from scapy.all import *
 import time
 
-#  text = json.dumps(data) - encodes
-#  data = json.loads(text) - decodes
-
 summerized_packets = []
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
-
 
 def spy(packet):
     return IP in packet and (TCP in packet or UDP in packet)
@@ -121,7 +115,7 @@ def main():
     s.connect((SERVER_ADDR, SERVER_PORT))
 
     set_globals()
-    sniff_count = 10
+    sniff_count = 100
 
     while True:
         start = time.perf_counter()
