@@ -12,11 +12,7 @@ import time
 #  text = json.dumps(data) - encodes
 #  data = json.loads(text) - decodes
 
-<<<<<<< HEAD
 summerized_packets = []
-=======
-summery_packets = []
->>>>>>> c7cb924bbf06699f8fe0429d3f18e5e72e1f4b76
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
@@ -42,6 +38,7 @@ def set_globals():
 def checked_before(IP):
     # checking if IP has been checked before by the geo-location service
     # to reduce traffic
+    global summerized_packets
     for pack in summerized_packets:
         if pack["dstIp"] == IP:
             return pack["locationIp"]
@@ -60,16 +57,6 @@ def get_location(IP):
             return data["country"]
         else:
             return "ERROR"
-
-def send_data(msg):
-    # Create a non-specific UDP socket
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_address = (SERVER_ADDR, SERVER_PORT)
-    sock.connect(server_address)
-
-    sock.sendto(msg.encode(), server_address)
-
-    sock.close()
 
 def get_program():
     # Returning dir of port-to-program from os
@@ -92,6 +79,7 @@ def get_program():
     return dictionary
 
 def summarize(packet):
+    global summerized_packets
     # setting size, dstip, and outorin
     size = len(packet)
     dst_ip = packet[IP].dst
@@ -118,7 +106,7 @@ def summarize(packet):
         prog = "Unknown"
 
     # appending summerized packet
-    summery_packets.append({
+    pack = {
         'prog': prog,  
         'dstIp': dst_ip,
         'locationIp': location,
@@ -129,22 +117,27 @@ def summarize(packet):
     summerized_packets.append(pack)
 
 def main():
-    global summerized_packets
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((SERVER_ADDR, SERVER_PORT))
 
     set_globals()
     sniff_count = 10
 
     while True:
         start = time.perf_counter()
-        summerized_packets = []
+        summerized_packets.clear()
         packets = sniff(count=sniff_count, lfilter=spy)
 
         for packet in packets:
             summarize(packet)
 
-        send_data(json.dumps(summerized_packets))
-        print("Sent {} summerized packets\nTook {} second(s)".format(sniff_count, time.perf_counter() - start))
-
+        try:
+            s.sendall(json.dumps(summerized_packets).encode())
+            print("Sent {} summerized packets\nTook {} second(s)".format(sniff_count, time.perf_counter() - start))
+        except Exception as e:
+            print(e)
+            print(SERVER_ADDR, "not responding")
+            break    
 
 if __name__ == '__main__':
     main()
