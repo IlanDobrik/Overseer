@@ -131,7 +131,7 @@ def main():
         except Exception as e:
             print(e)
             print(SERVER_ADDR, "not responding")
-            break    
+            break
 
 if __name__ == '__main__':
     main()

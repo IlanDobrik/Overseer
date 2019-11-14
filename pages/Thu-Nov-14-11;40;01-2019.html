@@ -12,7 +12,7 @@
     <meta name="url" content="http://www.yourdomainname.com">
     <meta name="copyright" content="company name">
     <meta name="robots" content="index,follow">
-    <title>Boss Sniffer Statistics</title>
+    <title>Sniffer Statistics</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" type="image/x-icon" href="/images/favicon/apple-touch-icon.png">
@@ -31,32 +31,14 @@
 </head>
 
 <body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <p>Loading...</p>
-    </div>
-    <!-- Preloader End -->
     <!-- Menu Section Start -->
     <header id="home">
         <div class="header-top-area">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-3">
-                        <div class="logo">
-                            <img src="/images/logo.png" width="263" height="40">
-                        </div>
-                    </div>
                     <div class="col-sm-9">
                         <div class="navigation-menu">
                             <div class="navbar">
-                                <div class="navbar-header">
-                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                        <span class="sr-only">Toggle navigation</span>
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
-                                    </button>
-                                </div>
                                 <div class="navbar-collapse collapse">
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="active"><a class="smoth-scroll" href="#home">Home <div class="ripple-wrapper"></div></a></li>
@@ -112,7 +94,7 @@
                         <div class="divider dark">
                             <i class="icon-graduation"></i>
                         </div>
-                        <p>Last update: %%TIMESTAMP%%</p>
+                        <p>Last update: Thu Nov 14 11:40:01 2019</p>
                     </div>
                 </div>
             </div>
@@ -150,11 +132,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: %%AGENT_NAMES%%,
+                            labels: [],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: %%AGENTS_TRAFFIC_IN%%
+                                data: []
                             }]
                         },
                         options: {
@@ -178,11 +160,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: %%AGENT_NAMES%%,
+                            labels: [],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: %%AGENTS_TRAFFIC_OUT%%
+                                data: []
                             }]
                         },
                         options: {
@@ -223,11 +205,11 @@
                         responsive: false,
                         type: 'pie',
                         data: {
-                            labels: %%COUNTRIES_NAMES%%,
+                            labels: ['Private Network', 'United States'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: %%COUNTRIES_TRAFFIC%%
+                                data: [21530, 501]
                             }]
                         },
                         options: {
@@ -270,11 +252,11 @@
                         responsive: false,
                         type: 'pie',
                         data: {
-                            labels: %%IP_ADDERS%%,
+                            labels: ['255.255.255.255', '239.255.255.250', '162.159.133.233', '192.168.168.215', '162.159.136.234', '65.55.44.109', '192.115.106.35', '93.184.221.240', '224.0.0.252', '152.199.19.160', '224.0.0.251', '51.140.6.23', '34.206.217.57'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: %%IPS_VALUES%%
+                                data: [686, 7551, 784, 19432, 809, 4342, 256, 509, 4047, 55, 376, 1869, 246]
                             }]
                         },
                         options: {
@@ -315,11 +297,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: %%APPS_NAMES%%,
+                            labels: ['Unknown'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: %%APPS_VALUES%%
+                                data: [40962]
                             }]
                         },
                         options: {
@@ -362,11 +344,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: %%PORTS_NUMBERS%%,
+                            labels: [67, 63687, 13085, 443, 13035, 34455, 13909, 54349, 54736, 53, 13910, 80, 57882, 51545, 52137, 59815, 55568, 51913, 57069, 59576, 61942, 49752, 59129, 58347, 56573, 37020, 61965, 61068, 63410, 51870, 51567, 64287, 13659, 53575, 65455, 56563, 50092, 53557, 60682, 62453, 63609, 52814, 60417, 54037, 60663, 57304, 52057, 65138, 52203, 53232, 5353, 13912, 58772, 13913, 60787, 58177, 63212, 51957, 54692, 49472, 65487, 60042, 61348, 56763, 53606, 58823, 50512, 57704, 60208, 51727, 64358, 52368, 52884, 58256, 59998, 58508, 59631, 53058, 50324, 13054, 5222, 55591, 53755, 60458, 52185, 60561, 50474, 60150],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: %%PORTS_TRAFFIC%%
+                                data: [686, 645, 784, 17926, 809, 637, 2230, 1180, 83, 766, 509, 452, 449, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 332, 71, 71, 71, 71, 71, 71, 55, 71, 142, 71, 71, 71, 71, 71, 71, 71, 430, 71, 71, 71, 71, 71, 215, 430, 376, 2112, 88, 1869, 71, 215, 216, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 648, 864, 860, 71, 71, 71, 71, 71, 71, 246, 288, 215, 71, 71, 71, 71, 215, 85]
                             }]
                         },
                         options: {
@@ -401,7 +383,7 @@
             </div>
             <div class="row">
                 
-                %%ALERTS%%
+                {}
             </div>
         </div>
         </div>
