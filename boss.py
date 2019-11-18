@@ -1,8 +1,7 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
 from klein import run, route
 import socket
 import json
-import datetime
+import os
 import time
 import threading
 
@@ -12,6 +11,7 @@ INCOMING = {}
 OUTGOING = {}
 PAGE_EX = r"./template.html"
 PAGE_OUT = r"./pages/"
+RECENT_PAGE = r""
 data = []
 
 def html_page():
@@ -46,7 +46,8 @@ def html_page():
 
     # creating page
     html_name =str(time.asctime()).replace(' ', '-').replace(':', ';')
-    with open(PAGE_OUT + html_name + '.html', 'w+') as file:
+    RECENT_PAGE = PAGE_OUT + html_name + '.html'
+    with open(RECENT_PAGE, 'w+') as file:
         file.write(copy)
     # return new file name
     return html_name
@@ -54,7 +55,19 @@ def html_page():
 # site
 @route('/')
 def home(request):
-    return "XD"
+    print(request)
+    reports = [x for x in os.listdir(PAGE_OUT) if ".html" in x]
+    page = ""
+    for report in reports:
+        page += '<a href="{}">{}</a>'.format(PAGE_OUT + report, report[: report.find(".html")])
+    return page
+    
+@route('/pages/<string:name>')
+def reportPage(request, name):
+    print(request, name)
+    with open(PAGE_OUT + name, 'r') as file:
+        return file.read()
+    return "An error has occurred"
 
 def country_traffic():
     l = {}
@@ -86,6 +99,7 @@ def program_traffic():
     return l
 
 def port_traffic():
+    # issue
     l = {}
     for pack in data:
         if pack["remotePort"] not in l:
@@ -150,7 +164,7 @@ def main():
     while True:
         data.clear()
 
-        while len(data) < 500:
+        while len(data) < 1:
             time.sleep(1)
         print("Creating HTML report")
         print("Created: ", html_page())
