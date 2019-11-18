@@ -8,6 +8,8 @@ import threading
 
 LISTEN_PORT = 1313
 ALERTS = {}
+INCOMING = {}
+OUTGOING = {}
 PAGE_EX = r"./template.html"
 PAGE_OUT = r"./pages/"
 data = []
@@ -18,12 +20,11 @@ def html_page():
     # ------------ TIME -------------
     copy = copy.replace(r"%%TIMESTAMP%%", str(time.asctime()), 1)
     # ------------- IN --------------
-    tmp = agent_traffic()
-    copy = copy.replace(r"%%AGENT_NAMES%%", str([key for key in tmp[0].keys()]), 1)
-    copy = copy.replace(r"%%AGENTS_TRAFFIC_IN%%", str([value for value in tmp[0].values()]), 1)
+    copy = copy.replace(r"%%AGENT_NAMES%%", str([key for key in INCOMING.keys()]), 1)
+    copy = copy.replace(r"%%AGENTS_TRAFFIC_IN%%", str([value for value in INCOMING.values()]), 1)
     # ------------- OUT -------------
-    copy = copy.replace(r"%%AGENT_NAMES%%", str([key for key in tmp[1].keys()]),1)
-    copy = copy.replace(r"%%AGENTS_TRAFFIC_OUT%%", str([value for value in tmp[1].values()]) , 1)
+    copy = copy.replace(r"%%AGENT_NAMES%%", str([key for key in OUTGOING.keys()]),1)
+    copy = copy.replace(r"%%AGENTS_TRAFFIC_OUT%%", str([value for value in OUTGOING.values()]) , 1)
     # ---------- COUNTRIES ----------
     tmp = country_traffic()
     copy = copy.replace(r"%%COUNTRIES_NAMES%%", str([key for key in tmp.keys()]), 1)
@@ -93,12 +94,6 @@ def port_traffic():
             l[pack["remotePort"]] += pack["sizeOfPacket"]
     return l
 
-def agent_traffic():
-    incoming = {}
-    outgoing = {}
-    # fill
-    return incoming, outgoing
-
 class ClientThread(threading.Thread):
     def __init__(self, clientAddress, clientsocket):
         threading.Thread.__init__(self)
@@ -106,17 +101,29 @@ class ClientThread(threading.Thread):
         self.caddress = clientAddress
 
     def run(self):
-        global data
+        global data, INCOMING, OUTGOING
+        INCOMING[self.caddress] = 0
+        OUTGOING[self.caddress] = 0
         print (self.caddress, "connected")
 
         while True:
             try:     
                 packs = self.csocket.recv(1024 * 100).decode()
                 data += json.loads(packs)
+
+                for pack in json.loads(packs):
+                    if pack['outOrIn']:
+                        OUTGOING[self.caddress] += pack['sizeOfPacket']
+                    else:
+                        INCOMING[self.caddress] += pack['sizeOfPacket']
+
             except Exception as e:
-                print(e)
+                print(type(e), e)
                 break
+            
         ALERTS[self.caddress] = "Disconnected"
+        INCOMING.pop(self.caddress, None)
+        OUTGOING.pop(self.caddress, None)
         print(str(self.caddress) , "disconnected")
 
 def listen4clients():
@@ -131,6 +138,10 @@ def listen4clients():
         newthread = ClientThread(clientAddress, clientsock)
         newthread.start()
 
+def clean_dict_values(dict):
+    for key in dict.key():
+        dict[key] = 0
+
 def main():
     #run("localhost", 80)
     t = threading.Thread(target=listen4clients, daemon=True)
@@ -139,12 +150,10 @@ def main():
     while True:
         data.clear()
 
-        while len(data) < 200:
+        while len(data) < 500:
             time.sleep(1)
         print("Creating HTML report")
         print("Created: ", html_page())
-
-
 
 if __name__ == '__main__':
     main()              
