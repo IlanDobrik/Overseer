@@ -102,8 +102,8 @@ class ClientThread(threading.Thread):
 
     def run(self):
         global data, INCOMING, OUTGOING
-        INCOMING[self.caddress] = 0
-        OUTGOING[self.caddress] = 0
+        INCOMING[self.caddress[0]] = 0
+        OUTGOING[self.caddress[0]] = 0
         print (self.caddress, "connected")
 
         while True:
@@ -113,18 +113,18 @@ class ClientThread(threading.Thread):
 
                 for pack in json.loads(packs):
                     if pack['outOrIn']:
-                        OUTGOING[self.caddress] += pack['sizeOfPacket']
+                        OUTGOING[self.caddress[0]] += pack['sizeOfPacket']
                     else:
-                        INCOMING[self.caddress] += pack['sizeOfPacket']
+                        INCOMING[self.caddress[0]] += pack['sizeOfPacket']
 
             except Exception as e:
                 print(type(e), e)
                 break
             
         ALERTS[self.caddress] = "Disconnected"
-        INCOMING.pop(self.caddress, None)
-        OUTGOING.pop(self.caddress, None)
-        print(str(self.caddress) , "disconnected")
+        INCOMING.pop(self.caddress[0], None)
+        OUTGOING.pop(self.caddress[0], None)
+        print(self.caddress , "disconnected")
 
 def listen4clients():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
