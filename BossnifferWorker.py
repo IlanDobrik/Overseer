@@ -116,6 +116,8 @@ def main():
 
     set_globals()
     sniff_count = 100
+    
+    print("Collecting packets...")
 
     while True:
         start = time.perf_counter()
