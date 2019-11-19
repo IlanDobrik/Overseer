@@ -1,4 +1,3 @@
-from klein import run, route
 import socket
 import json
 import os
@@ -51,23 +50,6 @@ def html_page():
         file.write(copy)
     # return new file name
     return html_name
-
-# site
-@route('/')
-def home(request):
-    print(request)
-    reports = [x for x in os.listdir(PAGE_OUT) if ".html" in x]
-    page = ""
-    for report in reports:
-        page += '<a href="{}">{}</a>'.format(PAGE_OUT + report, report[: report.find(".html")])
-    return page
-    
-@route('/pages/<string:name>')
-def reportPage(request, name):
-    print(request, name)
-    with open(PAGE_OUT + name, 'r') as file:
-        return file.read()
-    return "An error has occurred"
 
 def country_traffic():
     l = {}
@@ -157,7 +139,6 @@ def clean_dict_values(dict):
         dict[key] = 0
 
 def main():
-    #run("localhost", 80)
     t = threading.Thread(target=listen4clients, daemon=True)
     t.start()
 

@@ -12,7 +12,7 @@
     <meta name="url" content="http://www.yourdomainname.com">
     <meta name="copyright" content="company name">
     <meta name="robots" content="index,follow">
-    <title>Sniffer Statistics</title>
+    <title>Boss Sniffer Statistics</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" type="image/x-icon" href="/images/favicon/apple-touch-icon.png">
@@ -31,46 +31,6 @@
 </head>
 
 <body>
-    <!-- Menu Section Start -->
-    <header id="home">
-        <div class="header-top-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <div class="navigation-menu">
-                            <div class="navbar">
-                                <div class="navbar-collapse collapse">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li class="active"><a class="smoth-scroll" href="#home">Home <div class="ripple-wrapper"></div></a></li>
-                                        <li>
-                                            <a class="smoth-scroll" href="#agents-section-id">Agents</a>
-                                        </li>
-                                        <li>
-                                            <a class="smoth-scroll" href="#countries-section-id">Countries</a>
-                                        </li>
-                                        <li>
-                                            <a class="smoth-scroll" href="#ips-section-id">Ips</a>
-                                        </li>
-                                        <li>
-                                            <a class="smoth-scroll" href="#apps-section-id">Apps</a>
-                                        </li>
-                                        <li>
-                                            <a class="smoth-scroll" href="#ports-section-id">Ports</a>
-                                        </li>
-                                        <li>
-                                            <a class="smoth-scroll" href="#alerts-section-id">Alerts</a>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- Menu Section End -->
     <!-- Home Section Start -->
     <section id="home" class="home-section">
         <div class="container">
@@ -94,7 +54,7 @@
                         <div class="divider dark">
                             <i class="icon-graduation"></i>
                         </div>
-                        <p>Last update: Thu Nov 14 11:40:01 2019</p>
+                        <p>Last update: Mon Nov 18 13:03:17 2019</p>
                     </div>
                 </div>
             </div>
@@ -132,11 +92,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: [],
+                            labels: ['127.0.0.1'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: []
+                                data: [89242]
                             }]
                         },
                         options: {
@@ -160,11 +120,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: [],
+                            labels: ['127.0.0.1'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: []
+                                data: [0]
                             }]
                         },
                         options: {
@@ -205,11 +165,11 @@
                         responsive: false,
                         type: 'pie',
                         data: {
-                            labels: ['Private Network', 'United States'],
+                            labels: ['Private Network', 'Germany', 'ERROR', 'Hong Kong', 'United States', 'Israel'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [21530, 501]
+                                data: [57880, 141, 1637, 68, 875, 432]
                             }]
                         },
                         options: {
@@ -252,11 +212,11 @@
                         responsive: false,
                         type: 'pie',
                         data: {
-                            labels: ['255.255.255.255', '239.255.255.250', '162.159.133.233', '192.168.168.215', '162.159.136.234', '65.55.44.109', '192.115.106.35', '93.184.221.240', '224.0.0.252', '152.199.19.160', '224.0.0.251', '51.140.6.23', '34.206.217.57'],
+                            labels: ['224.0.0.251', '239.255.255.250', '255.255.255.255', '224.0.0.252', '192.168.168.215', '162.254.197.40', '192.168.2.17', '162.159.134.234', '192.115.106.35', '62.219.186.7', '111.221.29.254', '72.246.151.66', '72.246.151.179', '208.95.112.1', '162.159.134.233', '13.225.249.8', '34.231.79.233', '13.225.249.109'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [686, 7551, 784, 19432, 809, 4342, 256, 509, 4047, 55, 376, 1869, 246]
+                                data: [13254, 19316, 5840, 5547, 29725, 1121, 198, 2151, 995, 907, 6186, 517, 1862, 54, 55, 511, 630, 373]
                             }]
                         },
                         options: {
@@ -301,7 +261,7 @@
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [40962]
+                                data: [89242]
                             }]
                         },
                         options: {
@@ -344,11 +304,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: [67, 63687, 13085, 443, 13035, 34455, 13909, 54349, 54736, 53, 13910, 80, 57882, 51545, 52137, 59815, 55568, 51913, 57069, 59576, 61942, 49752, 59129, 58347, 56573, 37020, 61965, 61068, 63410, 51870, 51567, 64287, 13659, 53575, 65455, 56563, 50092, 53557, 60682, 62453, 63609, 52814, 60417, 54037, 60663, 57304, 52057, 65138, 52203, 53232, 5353, 13912, 58772, 13913, 60787, 58177, 63212, 51957, 54692, 49472, 65487, 60042, 61348, 56763, 53606, 58823, 50512, 57704, 60208, 51727, 64358, 52368, 52884, 58256, 59998, 58508, 59631, 53058, 50324, 13054, 5222, 55591, 53755, 60458, 52185, 60561, 50474, 60150],
+                            labels: [5353, 37020, 67, 52148, 60457, 58235, 52257, 51443, 52558, 63298, 54933, 27020, 15894, 54283, 16371, 52860, 56376, 56377, 15893, 443, 60288, 65512, 60514, 62425, 64079, 54181, 53690, 16373, 53, 16374, 64041, 80, 54614, 1900, 55763, 16375, 16376, 16377, 61104, 49890, 61107, 59686, 58028, 57159, 60997, 52086, 52494, 59207, 49859, 16379, 63702, 59143, 64125, 62351, 55773, 57595, 51150, 61130, 16398, 65074, 62248, 62812, 15897, 53132, 54762, 53065, 53638, 63983, 56507, 65443, 64452, 65204, 64701, 60107, 56778, 34455, 51905, 16366, 15918, 60504, 64638, 16399, 5222, 58298, 61518, 49351, 55129, 55130, 64152, 63961, 55191, 56664, 61595, 57588, 64415, 56783, 49566, 50902, 51131, 58217, 51132, 41731, 41416, 53974, 56812, 50725, 57909, 16402, 59948, 50467, 51053, 53778, 59530, 55587, 59924, 54299, 59633, 55722, 65109, 56419, 64062, 58382, 60589, 49317, 62930, 53811, 58227, 52809, 61370, 62101, 61907, 59787, 60929],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [686, 645, 784, 17926, 809, 637, 2230, 1180, 83, 766, 509, 452, 449, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 332, 71, 71, 71, 71, 71, 71, 55, 71, 142, 71, 71, 71, 71, 71, 71, 71, 430, 71, 71, 71, 71, 71, 215, 430, 376, 2112, 88, 1869, 71, 215, 216, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 648, 864, 860, 71, 71, 71, 71, 71, 71, 246, 288, 215, 71, 71, 71, 71, 215, 85]
+                                data: [13254, 664, 5840, 68, 68, 71, 71, 71, 71, 71, 430, 2025, 1121, 358, 198, 128, 128, 430, 2151, 21386, 341, 341, 341, 662, 190, 69, 69, 3180, 2292, 517, 1332, 3666, 166, 941, 341, 811, 811, 240, 69, 819, 537, 71, 71, 71, 71, 432, 215, 128, 64, 2249, 216, 432, 179, 69, 128, 132, 132, 895, 54, 215, 860, 716, 55, 645, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 1274, 128, 511, 630, 71, 71, 757, 356, 179, 215, 64, 64, 645, 71, 71, 71, 71, 71, 215, 66, 128, 499, 128, 128, 130, 215, 1180, 449, 152, 194, 178, 208, 373, 186, 176, 178, 186, 88, 128, 128, 74, 70, 70, 64, 128, 128, 128, 645, 179, 537, 128, 146, 138, 148, 216, 168, 358, 64]
                             }]
                         },
                         options: {
