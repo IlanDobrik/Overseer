@@ -7,7 +7,7 @@ import re
 from scapy.all import *
 import time
 
-summerized_packets = []
+summarized_packets = []
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
@@ -32,8 +32,8 @@ def set_globals():
 def checked_before(IP):
     # checking if IP has been checked before by the geo-location service
     # to reduce traffic
-    global summerized_packets
-    for pack in summerized_packets:
+    global summarized_packets
+    for pack in summarized_packets:
         if pack["dstIp"] == IP:
             return pack["locationIp"]
 
@@ -73,7 +73,7 @@ def get_program():
     return dictionary
 
 def summarize(packet):
-    global summerized_packets
+    global summarized_packets
     # setting size, dstip, and outorin
     size = len(packet)
     dst_ip = packet[IP].dst
@@ -108,7 +108,7 @@ def summarize(packet):
         'remotePort': port,
         'sizeOfPacket': size
         }
-    summerized_packets.append(pack)
+    summarized_packets.append(pack)
 
 def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -121,14 +121,14 @@ def main():
 
     while True:
         start = time.perf_counter()
-        summerized_packets.clear()
+        summarized_packets.clear()
         packets = sniff(count=sniff_count, lfilter=spy)
 
         for packet in packets:
             summarize(packet)
 
         try:
-            s.sendall(json.dumps(summerized_packets).encode())
+            s.sendall(json.dumps(summarized_packets).encode())
             print("Sent {} summerized packets\nTook {} second(s)".format(sniff_count, time.perf_counter() - start))
         except Exception as e:
             print(e)

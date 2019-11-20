@@ -1,17 +1,20 @@
+import os
 import socket
 import json
-import os
 import time
 import threading
+import subprocess
 
-LISTEN_PORT = 1313
+# global variables
 ALERTS = {}
 INCOMING = {}
 OUTGOING = {}
+data = []
+# config
+LISTEN_PORT = 1313
+SNIFF_COUNT = 200
 PAGE_EX = r"./template.html"
 PAGE_OUT = r"./pages/"
-RECENT_PAGE = r""
-data = []
 
 def html_page():
     with open(PAGE_EX, 'r') as file:
@@ -48,7 +51,6 @@ def html_page():
     RECENT_PAGE = PAGE_OUT + html_name + '.html'
     with open(RECENT_PAGE, 'w+') as file:
         file.write(copy)
-    # return new file name
     return html_name
 
 def country_traffic():
@@ -145,10 +147,14 @@ def main():
     while True:
         data.clear()
 
-        while len(data) < 1:
+        while len(data) < SNIFF_COUNT:
             time.sleep(1)
         print("Creating HTML report")
         print("Created: ", html_page())
 
 if __name__ == '__main__':
-    main()              
+    site = subprocess.Popen(r'python ./server/website.py ' + PAGE_OUT)
+    try:
+        main()
+    except KeyboardInterrupt:
+        site.kill()

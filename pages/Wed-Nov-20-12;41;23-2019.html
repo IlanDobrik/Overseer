@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Tag -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Boss Sniffer Statistics</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+</head>
+
+<body>
+    <section class="section-space-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Boss Sniffer Statistics</h2>
+                        <div class="divider dark">
+                            <i class="icon-graduation"></i>
+                        </div>
+                        <p>Last update: Wed Nov 20 12:41:23 2019</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        BACKGROUD_COLORS_LIST = [
+        "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd",  "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd", "#7986cb", "#64b5f6", "#4fc3f7", "#4dd0e1", "#4db6ac", "#81c784", "#aed581", "#dce775", "#fff176", "#ffd54f", "#ffb74d", "#ff8a65", "#e57373", "#f06292", "#ba68c8", "#9575cd"
+        ]
+    </script>
+
+    <section id="agents-section-id" class="section-space-padding about">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Traffic Per Agent</h2>
+                        <div class="divider dark">
+                            <i class="icon-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="width: 600px; overflow: hidden; margin: 0 auto;">
+                        <canvas id="agents-section-incoming"></canvas>
+                    </div>
+                    <script type="text/javascript">
+                    new Chart(document.getElementById("agents-section-incoming"), {
+                        responsive: false,
+                        type: 'bar',
+                        data: {
+                            labels: ['127.0.0.1'],
+                            datasets: [{
+                                label: "Bytes",
+                                backgroundColor: BACKGROUD_COLORS_LIST,
+                                data: [39488]
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Incoming Traffic Per Agent'
+                            }
+                        }
+                    });
+                    </script>
+                </div>
+                <div class="col-md-6">
+                    <div style="width: 600px; overflow: hidden; margin: 0 auto;">
+                        <canvas id="agents-section-outgoing"></canvas>
+                    </div>
+                    <script type="text/javascript">
+                    new Chart(document.getElementById("agents-section-outgoing"), {
+                        responsive: false,
+                        type: 'bar',
+                        data: {
+                            labels: ['127.0.0.1'],
+                            datasets: [{
+                                label: "Bytes",
+                                backgroundColor: BACKGROUD_COLORS_LIST,
+                                data: [0]
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Outgoing Traffic Per Agent'
+                            }
+                        }
+                    });
+                    </script>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <section id="countries-section-id" class="section-space-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Traffic Per Country</h2>
+                        <div class="divider dark">
+                            <i class="icon-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div style="width: 600px; overflow: hidden; margin: 0 auto;">
+                        <canvas id="countries-section-incoming"></canvas>
+                    </div>
+                    <script type="text/javascript">
+                    new Chart(document.getElementById("countries-section-incoming"), {
+                        responsive: false,
+                        type: 'pie',
+                        data: {
+                            labels: ['Private Network', 'United States'],
+                            datasets: [{
+                                label: "Bytes",
+                                backgroundColor: BACKGROUD_COLORS_LIST,
+                                data: [19523, 561]
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: true
+                            },
+                            title: {
+                                display: true,
+                                text: 'Traffic Per Country'
+                            }
+                        }
+                    });
+                    </script>
+                </div>
+                
+            </div>
+        </div>
+        </div>
+    </section>
+    <section id="ips-section-id" class="section-space-padding about">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Traffic Per IP</h2>
+                        <div class="divider dark">
+                            <i class="icon-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div style="width: 600px; overflow: hidden; margin: 0 auto;">
+                        <canvas id="ips-section-outgoing"></canvas>
+                    </div>
+                    <script type="text/javascript">
+                    new Chart(document.getElementById("ips-section-outgoing"), {
+                        responsive: false,
+                        type: 'pie',
+                        data: {
+                            labels: ['255.255.255.255', '192.168.168.215', '162.159.130.234', '192.115.106.35', '162.159.135.234', '52.54.29.61', '162.159.135.233', '62.219.186.7', '104.17.64.4', '216.58.211.170', '13.225.249.65'],
+                            datasets: [{
+                                label: "Bytes",
+                                backgroundColor: BACKGROUD_COLORS_LIST,
+                                data: [10976, 19965, 228, 398, 3844, 810, 55, 320, 1280, 1226, 386]
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Traffic Per Ip'
+                            }
+                        }
+                    });
+                    </script>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <section id="apps-section-id" class="section-space-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Traffic Per App</h2>
+                        <div class="divider dark">
+                            <i class="icon-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div style="width: 600px; overflow: hidden; margin: 0 auto;">
+                        <canvas id="apps-section-incoming"></canvas>
+                    </div>
+                    <script type="text/javascript">
+                    new Chart(document.getElementById("apps-section-incoming"), {
+                        responsive: false,
+                        type: 'bar',
+                        data: {
+                            labels: ['Unknown'],
+                            datasets: [{
+                                label: "Bytes",
+                                backgroundColor: BACKGROUD_COLORS_LIST,
+                                data: [39488]
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Traffic Per App'
+                            }
+                        }
+                    });
+                    </script>
+                </div>
+                
+            </div>
+        </div>
+        </div>
+    </section>
+    <section id="ports-section-id" class="section-space-padding about">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Traffic Per Port</h2>
+                        <div class="divider dark">
+                            <i class="icon-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div style="width: 600px; overflow: hidden; margin: 0 auto;">
+                        <canvas id="ports-section-outgoing"></canvas>
+                    </div>
+                    <script type="text/javascript">
+                    new Chart(document.getElementById("ports-section-outgoing"), {
+                        responsive: false,
+                        type: 'bar',
+                        data: {
+                            labels: [67, 443, 20100, 60479, 53, 20556, 20538, 20539, 20540, 20542, 20541, 20543, 20544, 20545, 20546, 20530, 20531, 20527, 20532, 20528, 20529, 20101, 54014, 63930, 20574, 62412, 20575, 50536, 20562, 20563],
+                            datasets: [{
+                                label: "Bytes",
+                                backgroundColor: BACKGROUD_COLORS_LIST,
+                                data: [10976, 18895, 228, 78, 1070, 3844, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54, 55, 160, 160, 1280, 160, 1226, 160, 193, 193]
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Traffic Per Port'
+                            }
+                        }
+                    });
+                    </script>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+	    <section id="alerts-section-id" class="section-space-padding about">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Alerts</h2>
+                        <div class="divider dark">
+                            <i class="icon-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">  
+                {}
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+
+</html>
