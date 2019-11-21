@@ -15,7 +15,7 @@
     <title>Boss Sniffer Statistics</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="144x144" type="image/x-icon" href="/images/favicon/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="144x144" type="image/x-icon" href="images/favicon/apple-touch-icon.png">
     <!-- All CSS Plugins -->
     <link rel="stylesheet" type="text/css" href="css/plugin.css">
     <!-- Main CSS Stylesheet -->
@@ -31,6 +31,64 @@
 </head>
 
 <body>
+    <!-- Preloader Start -->
+    <div class="preloader">
+        <p>Loading...</p>
+    </div>
+    <!-- Preloader End -->
+    <!-- Menu Section Start -->
+    <header id="home">
+        <div class="header-top-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="logo">
+                            <img src="images/logo.png" width="263" height="40">
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="navigation-menu">
+                            <div class="navbar">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                                <div class="navbar-collapse collapse">
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="active"><a class="smoth-scroll" href="#home">Home <div class="ripple-wrapper"></div></a></li>
+                                        <li>
+                                            <a class="smoth-scroll" href="#agents-section-id">Agents</a>
+                                        </li>
+                                        <li>
+                                            <a class="smoth-scroll" href="#countries-section-id">Countries</a>
+                                        </li>
+                                        <li>
+                                            <a class="smoth-scroll" href="#ips-section-id">Ips</a>
+                                        </li>
+                                        <li>
+                                            <a class="smoth-scroll" href="#apps-section-id">Apps</a>
+                                        </li>
+                                        <li>
+                                            <a class="smoth-scroll" href="#ports-section-id">Ports</a>
+                                        </li>
+                                        <li>
+                                            <a class="smoth-scroll" href="#alerts-section-id">Alerts</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Menu Section End -->
     <!-- Home Section Start -->
     <section id="home" class="home-section">
         <div class="container">
@@ -54,7 +112,7 @@
                         <div class="divider dark">
                             <i class="icon-graduation"></i>
                         </div>
-                        <p>Last update: Mon Nov 18 13:03:17 2019</p>
+                        <p>Last update: 28.06.2018, 14:23</p>
                     </div>
                 </div>
             </div>
@@ -92,11 +150,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: ['127.0.0.1'],
+                            labels: ["Dani","Shlomi","Nadav"],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [89242]
+                                data: [1202,572,800]
                             }]
                         },
                         options: {
@@ -120,11 +178,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: ['127.0.0.1'],
+                            labels: ["Dani","Shlomi","Nadav"],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [0]
+                                data: [1502,392,1990]
                             }]
                         },
                         options: {
@@ -165,11 +223,11 @@
                         responsive: false,
                         type: 'pie',
                         data: {
-                            labels: ['Private Network', 'Germany', 'ERROR', 'Hong Kong', 'United States', 'Israel'],
+                            labels: ['United States', 'Ireland', 'United Kingdom', 'Hong Kong', 'Israel'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [57880, 141, 1637, 68, 875, 432]
+                                data:  [6775346, 270041, 80730, 11747, 206183]
                             }]
                         },
                         options: {
@@ -212,11 +270,11 @@
                         responsive: false,
                         type: 'pie',
                         data: {
-                            labels: ['224.0.0.251', '239.255.255.250', '255.255.255.255', '224.0.0.252', '192.168.168.215', '162.254.197.40', '192.168.2.17', '162.159.134.234', '192.115.106.35', '62.219.186.7', '111.221.29.254', '72.246.151.66', '72.246.151.179', '208.95.112.1', '162.159.134.233', '13.225.249.8', '34.231.79.233', '13.225.249.109'],
+                            labels: ['157.240.1.19', '157.55.235.176', '193.235.232.88', '64.233.184.189'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [13254, 19316, 5840, 5547, 29725, 1121, 198, 2151, 995, 907, 6186, 517, 1862, 54, 55, 511, 630, 373]
+                                data: [1959430, 136, 44172, 14281]
                             }]
                         },
                         options: {
@@ -257,11 +315,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: ['Unknown'],
+                            labels: ['chrome.exe', 'Unknown', 'Spotify.exe', 'googledrivesync.exe', 'Skype.exe'],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [89242]
+                                data: [2413445, 2573590, 1342221, 1593800, 73516]
                             }]
                         },
                         options: {
@@ -304,11 +362,11 @@
                         responsive: false,
                         type: 'bar',
                         data: {
-                            labels: [5353, 37020, 67, 52148, 60457, 58235, 52257, 51443, 52558, 63298, 54933, 27020, 15894, 54283, 16371, 52860, 56376, 56377, 15893, 443, 60288, 65512, 60514, 62425, 64079, 54181, 53690, 16373, 53, 16374, 64041, 80, 54614, 1900, 55763, 16375, 16376, 16377, 61104, 49890, 61107, 59686, 58028, 57159, 60997, 52086, 52494, 59207, 49859, 16379, 63702, 59143, 64125, 62351, 55773, 57595, 51150, 61130, 16398, 65074, 62248, 62812, 15897, 53132, 54762, 53065, 53638, 63983, 56507, 65443, 64452, 65204, 64701, 60107, 56778, 34455, 51905, 16366, 15918, 60504, 64638, 16399, 5222, 58298, 61518, 49351, 55129, 55130, 64152, 63961, 55191, 56664, 61595, 57588, 64415, 56783, 49566, 50902, 51131, 58217, 51132, 41731, 41416, 53974, 56812, 50725, 57909, 16402, 59948, 50467, 51053, 53778, 59530, 55587, 59924, 54299, 59633, 55722, 65109, 56419, 64062, 58382, 60589, 49317, 62930, 53811, 58227, 52809, 61370, 62101, 61907, 59787, 60929],
+                            labels: [443, 40027, 80, 40022, 40035],
                             datasets: [{
                                 label: "Bytes",
                                 backgroundColor: BACKGROUD_COLORS_LIST,
-                                data: [13254, 664, 5840, 68, 68, 71, 71, 71, 71, 71, 430, 2025, 1121, 358, 198, 128, 128, 430, 2151, 21386, 341, 341, 341, 662, 190, 69, 69, 3180, 2292, 517, 1332, 3666, 166, 941, 341, 811, 811, 240, 69, 819, 537, 71, 71, 71, 71, 432, 215, 128, 64, 2249, 216, 432, 179, 69, 128, 132, 132, 895, 54, 215, 860, 716, 55, 645, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 71, 1274, 128, 511, 630, 71, 71, 757, 356, 179, 215, 64, 64, 645, 71, 71, 71, 71, 71, 215, 66, 128, 499, 128, 128, 130, 215, 1180, 449, 152, 194, 178, 208, 373, 186, 176, 178, 186, 88, 128, 128, 74, 70, 70, 64, 128, 128, 128, 645, 179, 537, 128, 146, 138, 148, 216, 168, 358, 64]
+                                data: [6241607, 8318, 1594496, 351, 210]
                             }]
                         },
                         options: {
@@ -343,7 +401,7 @@
             </div>
             <div class="row">
                 
-                {}
+                 [('Dani', '157.240.1.19')]
             </div>
         </div>
         </div>

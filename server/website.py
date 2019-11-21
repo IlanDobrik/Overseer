@@ -3,7 +3,7 @@ import sys
 import logging
 from flask import Flask
 
-PAGE_OUT = sys.argv[1]
+PAGE_OUT = r'./pages/' #sys.argv[1]
 app = Flask(__name__)
 
 @app.route('/')
@@ -14,13 +14,25 @@ def home():
         page += '<a href="{}">{}</a>\n'.format(PAGE_OUT + report, report[: report.find(".html")])
     return page
 
-@app.route('/pages/<string:name>')
+@app.route(PAGE_OUT[1:] + '<string:name>')
 def reportPage(name):
     with open(PAGE_OUT + name, 'r') as file:
         return file.read()
     return "An error has occurred"
 
+@app.route(PAGE_OUT[1:] + 'css/<string:name>')
+def handleCSS(name):
+    with open(PAGE_OUT + "css/" + name, 'r') as file:
+        return file.read()
+    return "An error has occurred"
+
+@app.route(PAGE_OUT[1:] + 'js/<string:name>')
+def handleJS(name):
+    with open(PAGE_OUT + "js/" + name, 'r') as file:
+        return file.read()
+    return "An error has occurred"
+
 if __name__ == "__main__":
-    log = logging.getLogger('werkzeug')
-    log.setLevel(logging.ERROR)
+    # log = logging.getLogger('werkzeug')
+    # log.setLevel(logging.ERROR)
     app.run(host="127.0.0.1", port=80)
