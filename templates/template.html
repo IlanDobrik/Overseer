@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Aclonica'>
+
+    <style>
+        body {
+            font-family: 'Aclonica';
+        }
+    </style>
+
+    <title>Chart.js Test</title>
+</head>
+
+
+<body style="background-color: rgb(0, 20, 255, 0.1);">
+    <p style="font-size: medium; text-align: right;">Created by: Ilan Dobromilsky</p>
+    <h1 style="text-align: center; text-decoration: underline; font-size:50px; color: #333;">
+        Overseer
+    </h1>
+    <h1 style="text-align: left; font-size: 25px;">Time Created: Sat 18:56:23</p>
+        
+    <div class="container">
+        <h1>Chart 1</h1>
+        <canvas id="1" width="600" height="280"></canvas>
+        <h1>Chart 2</h1>
+        <canvas id="2" width="600" height="400"></canvas>
+        <h1>Chart 3</h1>
+        <canvas id="3" width="600" height="400"></canvas>
+        <h1>Chart 4</h1>
+        <canvas id="4" width="600" height="400"></canvas>
+    </div>
+
+    <script>
+        // ------------------ Chart1 -------------------- //
+        let myChart = document.getElementById('1').getContext('2d');
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'Arial';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#777';
+
+        let massPopChart = new Chart(myChart, {
+        type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data:{
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
+            datasets:[{
+            label:'Population',
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
+            backgroundColor:[
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ],
+            borderWidth:1,
+            borderColor:'#777',
+            hoverBorderWidth:3,
+            hoverBorderColor:'#000'
+            }]
+        },
+        options:{
+            title:{
+            display:true,
+            text:'Place Holder',
+            fontSize:25
+            },
+            legend:{
+            display:false
+            },
+            layout:{
+            padding:{
+                left:0,
+                right:0,
+                bottom:0,
+                top:0
+            }
+            }
+        }
+        });
+
+        // ------------------ Chart2 -------------------- //
+        let myChart2 = document.getElementById('2').getContext('2d');
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'Arial';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#777';
+
+        let massPopChart2 = new Chart(myChart2, {
+        type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data:{
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
+            datasets:[{
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
+            backgroundColor:[
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ],
+            borderWidth:1,
+            borderColor:'#777',
+            hoverBorderWidth:3,
+            hoverBorderColor:'#000'
+            }]
+        },
+        options:{
+            title:{
+            display:true,
+            text:'Place Holder',
+            fontSize:25
+            },
+            legend:{
+            display:true,
+            position:'right',
+            labels:{
+                fontColor:'#000'
+            }
+            },
+            layout:{
+            padding:{
+                left:100,
+                right:0,
+                bottom:0,
+                top:100
+            }
+            }
+        }
+        });
+
+    </script>
+</body>
+</html>

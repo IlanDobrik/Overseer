@@ -153,8 +153,8 @@ def main():
         print("Created: ", html_page())
 
 if __name__ == '__main__':
-    site = subprocess.Popen(r'python ./server/website.py ' + PAGE_OUT)
+    site = subprocess.Popen(r'python ./server/website.py ' + PAGE_OUT) # starting up the site
     try:
-        main()
+        main() # running main
     except KeyboardInterrupt:
-        site.kill()
+        site.kill() # if main was manually closed due to KeyboardInterrupt. closing site
