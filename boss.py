@@ -20,31 +20,31 @@ def html_page():
     with open(PAGE_EX, 'r') as file:
         copy = file.read()
     # ------------ TIME -------------
-    copy = copy.replace(r"%%TIMESTAMP%%", str(time.asctime()), 1)
+    copy = copy.replace(r"``TIME``", str(time.asctime()), 1)
     # ------------- IN --------------
-    copy = copy.replace(r"%%AGENT_NAMES%%", str([key for key in INCOMING.keys()]), 1)
-    copy = copy.replace(r"%%AGENTS_TRAFFIC_IN%%", str([value for value in INCOMING.values()]), 1)
+    copy = copy.replace(r"``AGENT_NAMES``", str([key for key in INCOMING.keys()]), 1)
+    copy = copy.replace(r"``AGENTS_TRAFFIC_IN``", str([value for value in INCOMING.values()]), 1)
     # ------------- OUT -------------
-    copy = copy.replace(r"%%AGENT_NAMES%%", str([key for key in OUTGOING.keys()]),1)
-    copy = copy.replace(r"%%AGENTS_TRAFFIC_OUT%%", str([value for value in OUTGOING.values()]) , 1)
+    copy = copy.replace(r"``AGENT_NAMES``", str([key for key in OUTGOING.keys()]),1)
+    copy = copy.replace(r"``AGENTS_TRAFFIC_OUT``", str([value for value in OUTGOING.values()]) , 1)
     # ---------- COUNTRIES ----------
     tmp = country_traffic()
-    copy = copy.replace(r"%%COUNTRIES_NAMES%%", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"%%COUNTRIES_TRAFFIC%%", str([value for value in tmp.values()]), 1)
+    copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in tmp.keys()]), 1)
+    copy = copy.replace(r"``COUNTRIES_TRAFFIC``", str([value for value in tmp.values()]), 1)
     # ----------- DSTIP -------------
     tmp = dstip_traffic()
-    copy = copy.replace(r"%%IP_ADDERS%%", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"%%IPS_VALUES%%", str([value for value in tmp.values()]), 1)
+    copy = copy.replace(r"``IP_ADDERS``", str([key for key in tmp.keys()]), 1)
+    copy = copy.replace(r"``IPS_VALUES``", str([value for value in tmp.values()]), 1)
     # ------------ PROG -------------
     tmp = program_traffic()
-    copy = copy.replace(r"%%APPS_NAMES%%", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"%%APPS_VALUES%%", str([value for value in tmp.values()]), 1)
+    copy = copy.replace(r"``APPS_NAMES``", str([key for key in tmp.keys()]), 1)
+    copy = copy.replace(r"``APPS_VALUES``", str([value for value in tmp.values()]), 1)
     # ------------ PORTS ------------
     tmp = port_traffic()
-    copy = copy.replace(r"%%PORTS_NUMBERS%%", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"%%PORTS_TRAFFIC%%", str([value for value in tmp.values()]), 1)
+    copy = copy.replace(r"``PORTS_NUMBERS``", str([key for key in tmp.keys()]), 1)
+    copy = copy.replace(r"``PORTS_TRAFFIC``", str([value for value in tmp.values()]), 1)
     # ------------ ALERTS -----------
-    copy = copy.replace(r"%%ALERTS%%", str(ALERTS), 1)
+    copy = copy.replace(r"``ALERTS``", str(ALERTS), 1)
 
     # creating page
     html_name =str(time.asctime()).replace(' ', '-').replace(':', ';')

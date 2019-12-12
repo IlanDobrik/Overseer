@@ -60,10 +60,18 @@
         let incoming = new Chart(tmp, {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``AGENT_NAMES``,
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
             datasets:[{
-            label:'Bytes',
-            data:``AGENT_TRAFFIC_IN``,
+            label:'Population',
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -96,10 +104,18 @@
         let outgoing = new Chart(tmp, {
             type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``AGENT_NAMES,
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
             datasets:[{
-            label:'Bytes',
-            data:``AGENT_TRAFFIC_OUT``,
+            label:'Population',
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -131,9 +147,17 @@
         let country = new Chart(tmp, {
             type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``COUNTRIES_NAMES``,
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
             datasets:[{
-            data:``COUNTRIES_TRAFFIC``,
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -170,9 +194,17 @@
         let dst = new Chart(tmp, {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``IP_ADDERS``,
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
             datasets:[{
-            data:``IPS_VALUES``,
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -208,10 +240,18 @@
         let program = new Chart(tmp, {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``APPS_NAMES``,
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
             datasets:[{
-            label:'Bytes',
-            data:``APPS_VALUES``,
+            label:'Population',
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -244,9 +284,17 @@
         let port = new Chart(tmp, {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``PORTS_NUMBERS``,
+            labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford', '7'],
             datasets:[{
-            data:``PORTS_TRAFFIC``,
+            data:[
+                617594,
+                181045,
+                153060,
+                106519,
+                105162,
+                95072,
+                1273891
+            ],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
