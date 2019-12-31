@@ -12,7 +12,7 @@ OUTGOING = {}
 data = []
 # config
 LISTEN_PORT = 1313
-SNIFF_COUNT = 200
+SNIFF_COUNT = 2000
 PAGE_EX = r"./template.html"
 PAGE_OUT = r"./pages/"
 
@@ -47,7 +47,7 @@ def html_page():
     copy = copy.replace(r"``ALERTS``", str(ALERTS), 1)
 
     # creating page
-    html_name =str(time.asctime()).replace(' ', '-').replace(':', ';')
+    html_name = str(time.asctime()).replace(' ', '-').replace(':', ';')
     RECENT_PAGE = PAGE_OUT + html_name + '.html'
     with open(RECENT_PAGE, 'w+') as file:
         file.write(copy)

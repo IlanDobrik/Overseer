@@ -115,7 +115,7 @@ def main():
     s.connect((SERVER_ADDR, SERVER_PORT))
 
     set_globals()
-    sniff_count = 100
+    sniff_count = 200
     
     print("Collecting packets...")
 

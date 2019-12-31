@@ -10,10 +10,20 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     reports = [x for x in os.listdir(PAGES_FOLDER) if ".html" in x]
-    page = "<h2>this</h2>\n"
+    page = '''
+                <title>Reports</title>
+                <style>
+                    body {
+                        font-family: "Arial Black";
+                        font-size: 20px;
+                        }
+                </style>
+                <body>
+                <h1>Reports</h1>
+                <ul id="Reports" style="list-style-type: disc;">'''
     for report in reports:
-        page += '<a href="{}">{}</a>\n'.format(PAGES_FOLDER + report, report[: report.find(".html")])
-    return page
+        page += '<li><a href="{}">{}</a></li>'.format(PAGES_FOLDER + report, report[: report.find(".html")])
+    return page + "</ul></body>"
 
 @app.route(PAGES_FOLDER[1:] + '<string:name>')
 def reportPage(name):
