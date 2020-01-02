@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>Overseer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: "Arial Black";
+        }
+    </style>
+</head>
+
+
+<body>
+    <div>
+            <p style="font-size: medium; text-align: right;">Created by: Ilan Dobromilsky</p>
+            <h1 style="text-align: center; text-decoration: underline; font-size:50px;">
+                Overseer
+            </h1>
+            <h2 style="font-size:35px; text-decoration: underline;">
+                Summarization 
+            </h2>
+    </div>
+        
+    <div class="container">
+        <h1>Incoming</h1>
+        <canvas id="1" width="600" height="280"></canvas>
+        <h1>Outgoing</h1>
+        <canvas id="2" width="600" height="280"></canvas>
+    </div>
+
+    <script>
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'Arial';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#777';
+
+        // ------------------ Chart1 -------------------- //
+        let tmp = document.getElementById('1').getContext('2d');
+
+        var myLineChart = new Chart(tmp, {
+            type: 'line',
+            data: ``INCOMING_DATA``,
+            labels: ``INCOMING_DATA``
+        });
+
+        // ------------------ Chart2 -------------------- //
+        tmp = document.getElementById('2').getContext('2d');
+
+        var myLineChart = new Chart(tmp, {
+            type: 'line',
+            data: ``OUTGOING_DATA``,
+            labels: ``OUTGOING_DATA``
+        });
+    </script>
+    <p style="text-align:left; font-size: 25px;">``ALERTS``</p>
+</body>
+</html>

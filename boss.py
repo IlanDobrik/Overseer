@@ -13,12 +13,14 @@ data = []
 # config
 LISTEN_PORT = 1313
 SNIFF_COUNT = 2000
-PAGE_EX = r"./template.html"
-PAGE_OUT = r"./pages/"
+PAGES_FOLDER = r"./pages/"
+
 
 def html_page():
-    with open(PAGE_EX, 'r') as file:
+    with open(r"./template.html", 'r') as file:
         copy = file.read()
+
+    save = []
     # ------------ TIME -------------
     copy = copy.replace(r"``TIME``", str(time.asctime()), 1)
     # ------------- IN --------------
@@ -28,29 +30,50 @@ def html_page():
     copy = copy.replace(r"``AGENT_NAMES``", str([key for key in OUTGOING.keys()]),1)
     copy = copy.replace(r"``AGENTS_TRAFFIC_OUT``", str([value for value in OUTGOING.values()]) , 1)
     # ---------- COUNTRIES ----------
-    tmp = country_traffic()
-    copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"``COUNTRIES_TRAFFIC``", str([value for value in tmp.values()]), 1)
+    save.append(country_traffic())
+    copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in save[-1].keys()]), 1)
+    copy = copy.replace(r"``COUNTRIES_TRAFFIC``", str([value for value in save[-1].values()]), 1)
     # ----------- DSTIP -------------
-    tmp = dstip_traffic()
-    copy = copy.replace(r"``IP_ADDERS``", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"``IPS_VALUES``", str([value for value in tmp.values()]), 1)
+    save.append(dstip_traffic())
+    copy = copy.replace(r"``IP_ADDERS``", str([key for key in save[-1].keys()]), 1)
+    copy = copy.replace(r"``IPS_VALUES``", str([value for value in save[-1].values()]), 1)
     # ------------ PROG -------------
-    tmp = program_traffic()
-    copy = copy.replace(r"``APPS_NAMES``", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"``APPS_VALUES``", str([value for value in tmp.values()]), 1)
+    save.append(program_traffic())
+    copy = copy.replace(r"``APPS_NAMES``", str([key for key in save[-1].keys()]), 1)
+    copy = copy.replace(r"``APPS_VALUES``", str([value for value in save[-1].values()]), 1)
     # ------------ PORTS ------------
-    tmp = port_traffic()
-    copy = copy.replace(r"``PORTS_NUMBERS``", str([key for key in tmp.keys()]), 1)
-    copy = copy.replace(r"``PORTS_TRAFFIC``", str([value for value in tmp.values()]), 1)
+    save.append(port_traffic())
+    copy = copy.replace(r"``PORTS_NUMBERS``", str([key for key in save[-1].keys()]), 1)
+    copy = copy.replace(r"``PORTS_TRAFFIC``", str([value for value in save[-1].values()]), 1)
     # ------------ ALERTS -----------
     copy = copy.replace(r"``ALERTS``", str(ALERTS), 1)
 
+    # getting DB
+    with open("DB.dat", "r") as file:
+        db = file.read()
+    # combining the DB with the new input
+    for i in save:
+        index = 0
+        for index in range(0, len(db)):
+            if sorted(db[index].keys()) != sorted(i.keys()):
+                continue
+            for item in i.items():
+                db[index][item[0]] += item[1]
+            index += 1
+            break
+        if index == len(db) - 1:
+            for i in save:
+                db.append(i)
+    # writing results back to file
+    with open("DB.dat", "w") as file:
+        file.write(json.dumps(db))
+
     # creating page
-    html_name = str(time.asctime()).replace(' ', '-').replace(':', ';')
-    RECENT_PAGE = PAGE_OUT + html_name + '.html'
+    html_name = "Test"#str(time.asctime()).replace(' ', '-').replace(':', ';')
+    RECENT_PAGE = PAGES_FOLDER + html_name + '.html'
     with open(RECENT_PAGE, 'w+') as file:
         file.write(copy)
+
     return html_name
 
 def country_traffic():
@@ -58,10 +81,8 @@ def country_traffic():
     for pack in data:
         if pack["locationIp"] is None:
             continue
-        elif pack["locationIp"] not in l:
-            l[pack["locationIp"]] = pack["sizeOfPacket"]
         else:
-            l[pack["locationIp"]] += pack["sizeOfPacket"]
+            l.update({pack["locationIp"]:pack["sizeOfPacket"]})
     return l
 
 def dstip_traffic():
@@ -153,7 +174,7 @@ def main():
         print("Created: ", html_page())
 
 if __name__ == '__main__':
-    site = subprocess.Popen(r'python ./server/website.py ' + PAGE_OUT) # starting up the site
+    site = subprocess.Popen(r'python ./server/website.py ' + PAGES_FOLDER) # starting up the site
     try:
         main() # running main
     except KeyboardInterrupt:

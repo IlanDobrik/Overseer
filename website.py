@@ -4,7 +4,7 @@ import logging
 from flask import Flask, render_template
 
 
-PAGES_FOLDER = r'./templates/' #sys.argv[1]
+PAGES_FOLDER = r'./reports/' #sys.argv[1]
 app = Flask(__name__)
 
 @app.route('/')
@@ -20,15 +20,21 @@ def home():
                 </style>
                 <body>
                 <h1>Reports</h1>
-                <ul id="Reports" style="list-style-type: disc;">'''
+                <ul id="Reports" style="list-style-type: disc;">
+                    <li><a href="summarized">Summarized</a></li>
+                '''
     for report in reports:
         page += '<li><a href="{}">{}</a></li>'.format(PAGES_FOLDER + report, report[: report.find(".html")])
     return page + "</ul></body>"
 
 @app.route(PAGES_FOLDER[1:] + '<string:name>')
 def reportPage(name):
-    print(name)
     return  render_template(name)
+
+
+@app.route('/summarized')
+def summarizedReportPage():
+    pass
 
 if __name__ == "__main__":
     # log = logging.getLogger('werkzeug')
