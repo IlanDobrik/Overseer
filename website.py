@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import logging
 from flask import Flask, render_template
 
@@ -29,12 +30,27 @@ def home():
 
 @app.route(PAGES_FOLDER[1:] + '<string:name>')
 def reportPage(name):
-    return  render_template(name)
+    return  open(r"./reports/" + name, 'r').read()
 
 
 @app.route('/summarized')
 def summarizedReportPage():
-    pass
+    # issue - i didnt come close to what i need to do. change DB
+    # getting DB
+    with open("DB.dat", "r") as file:
+        db = json.loads(file.read())
+
+    # getting summrized template
+    with open(r"./templates/summarized.html", 'r') as file:
+        copy = file.read()
+
+    # editing
+    copy = copy.replace(r"``AGENTS``", str([key for key in db[0].keys()]))
+    copy = copy.replace(r"``INCOMING_DATA``", str([value for value in db[0].values()]))
+    copy = copy.replace(r"``OUTGOING_DATA``", str([value for value in db[1].values()]))
+
+    print(copy)
+    return copy
 
 if __name__ == "__main__":
     # log = logging.getLogger('werkzeug')

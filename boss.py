@@ -12,23 +12,23 @@ OUTGOING = {}
 data = []
 # config
 LISTEN_PORT = 1313
-SNIFF_COUNT = 2000
-PAGES_FOLDER = r"./pages/"
+SNIFF_COUNT = 200
+PAGES_FOLDER = r"./reports/"
 
 
 def html_page():
-    with open(r"./template.html", 'r') as file:
+    with open(r"./templates/template.html", 'r') as file:
         copy = file.read()
 
-    save = []
+    save = [INCOMING, OUTGOING]
     # ------------ TIME -------------
     copy = copy.replace(r"``TIME``", str(time.asctime()), 1)
     # ------------- IN --------------
     copy = copy.replace(r"``AGENT_NAMES``", str([key for key in INCOMING.keys()]), 1)
-    copy = copy.replace(r"``AGENTS_TRAFFIC_IN``", str([value for value in INCOMING.values()]), 1)
+    copy = copy.replace(r"``AGENT_TRAFFIC_IN``", str([value for value in INCOMING.values()]), 1)
     # ------------- OUT -------------
     copy = copy.replace(r"``AGENT_NAMES``", str([key for key in OUTGOING.keys()]),1)
-    copy = copy.replace(r"``AGENTS_TRAFFIC_OUT``", str([value for value in OUTGOING.values()]) , 1)
+    copy = copy.replace(r"``AGENT_TRAFFIC_OUT``", str([value for value in OUTGOING.values()]) , 1)
     # ---------- COUNTRIES ----------
     save.append(country_traffic())
     copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in save[-1].keys()]), 1)
@@ -50,28 +50,38 @@ def html_page():
 
     # getting DB
     with open("DB.dat", "r") as file:
-        db = file.read()
+        db = json.loads(file.read())
+    
+    # issue - what happens if new agent is added? it will just add the dict insted of updating the existing one
     # combining the DB with the new input
-    for i in save:
-        index = 0
-        for index in range(0, len(db)):
-            if sorted(db[index].keys()) != sorted(i.keys()):
-                continue
-            for item in i.items():
-                db[index][item[0]] += item[1]
-            index += 1
-            break
-        if index == len(db) - 1:
-            for i in save:
-                db.append(i)
+    if len(db) != 0:
+        # going over each item in new input
+        for i in save:
+            index = 0
+            for index in range(0, len(db)):
+                # and trying to find match equivalent in the old dict
+                if sorted(db[index].keys()) != sorted(i.keys()):
+                    continue
+                for item in i.items():
+                    # once found, update value
+                    db[index][item[0]] += item[1]
+                index += 1
+                break
+            # if notfound, just append missing dict
+            if index == len(db) - 1:
+                for i in save:
+                    db.append(i)
+    else:
+        # if DB is empty, copy new info into it, insted of iterating over it
+        db = save
+
     # writing results back to file
     with open("DB.dat", "w") as file:
         file.write(json.dumps(db))
 
     # creating page
     html_name = "Test"#str(time.asctime()).replace(' ', '-').replace(':', ';')
-    RECENT_PAGE = PAGES_FOLDER + html_name + '.html'
-    with open(RECENT_PAGE, 'w+') as file:
+    with open(PAGES_FOLDER + html_name + '.html', 'w+') as file:
         file.write(copy)
 
     return html_name
@@ -104,7 +114,7 @@ def program_traffic():
     return l
 
 def port_traffic():
-    # issue
+    # issue ?
     l = {}
     for pack in data:
         if pack["remotePort"] not in l:
@@ -115,7 +125,7 @@ def port_traffic():
 
 class ClientThread(threading.Thread):
     def __init__(self, clientAddress, clientsocket):
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, daemon=True)
         self.csocket = clientsocket
         self.caddress = clientAddress
 
@@ -126,40 +136,40 @@ class ClientThread(threading.Thread):
         print (self.caddress, "connected")
 
         while True:
-            try:     
+            try:   
+                # receiving data and adding it to data  
                 packs = self.csocket.recv(1024 * 100).decode()
                 data += json.loads(packs)
 
+                # filling INCOMING and OUTGOING data size for each user
                 for pack in json.loads(packs):
                     if pack['outOrIn']:
                         OUTGOING[self.caddress[0]] += pack['sizeOfPacket']
                     else:
                         INCOMING[self.caddress[0]] += pack['sizeOfPacket']
-
             except Exception as e:
-                print(type(e), e)
                 break
-            
+        
+        # if agent disconnects, it will break the while loop.
+        # notifying in ALERTS
         ALERTS[self.caddress] = "Disconnected"
         INCOMING.pop(self.caddress[0], None)
         OUTGOING.pop(self.caddress[0], None)
         print(self.caddress , "disconnected")
 
 def listen4clients():
+    # creating listen socket
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind(('', LISTEN_PORT))
     print("Server started")
-    
+
+    # creating client sockets    
     while True:
         server.listen(1)
         clientsock, clientAddress = server.accept()
         newthread = ClientThread(clientAddress, clientsock)
         newthread.start()
-
-def clean_dict_values(dict):
-    for key in dict.key():
-        dict[key] = 0
 
 def main():
     t = threading.Thread(target=listen4clients, daemon=True)
@@ -170,11 +180,12 @@ def main():
 
         while len(data) < SNIFF_COUNT:
             time.sleep(1)
-        print("Creating HTML report")
+        print("Received {} packets".format(len(data)))
         print("Created: ", html_page())
 
 if __name__ == '__main__':
-    site = subprocess.Popen(r'python ./server/website.py ' + PAGES_FOLDER) # starting up the site
+    
+    site = subprocess.Popen(r'python ./website.py ' + PAGES_FOLDER) # starting up the site
     try:
         main() # running main
     except KeyboardInterrupt:

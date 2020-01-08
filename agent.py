@@ -11,6 +11,7 @@ summarized_packets = []
 LOCAL_IP = ""
 SERVER_ADDR = "127.0.0.1"
 SERVER_PORT = 1313
+SIZE = 100
 
 def spy(packet):
     return IP in packet and (TCP in packet or UDP in packet)
@@ -115,21 +116,20 @@ def main():
     s.connect((SERVER_ADDR, SERVER_PORT))
 
     set_globals()
-    sniff_count = 200
     
     print("Collecting packets...")
 
     while True:
         start = time.perf_counter()
         summarized_packets.clear()
-        packets = sniff(count=sniff_count, lfilter=spy)
+        packets = sniff(count=SIZE, lfilter=spy)
 
         for packet in packets:
             summarize(packet)
 
         try:
             s.sendall(json.dumps(summarized_packets).encode())
-            print("Sent {} summerized packets\nTook {} second(s)".format(sniff_count, time.perf_counter() - start))
+            print("Sent {} summarized packets\nTook {} second(s)".format(SIZE, time.perf_counter() - start))
         except Exception as e:
             print(e)
             print(SERVER_ADDR, "not responding")

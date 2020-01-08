@@ -22,7 +22,7 @@
             <h1 style="text-align: center; text-decoration: underline; font-size:50px;">
                 Overseer
             </h1>
-            <p style="text-align:left; font-size: 25px;">Time Created: ``TIME``</p>
+            <p style="text-align:left; font-size: 25px;">Time Created: Wed Jan  8 12:59:08 2020</p>
     </div>
         
     <div class="container">
@@ -66,10 +66,10 @@
         let incoming = new Chart(tmp, {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``AGENT_NAMES``,
+            labels:['127.0.0.1'],
             datasets:[{
             label:'Bytes',
-            data:``AGENT_TRAFFIC_IN``,
+            data:[184002],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -102,10 +102,10 @@
         let outgoing = new Chart(tmp, {
             type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``AGENT_NAMES``,
+            labels:['127.0.0.1'],
             datasets:[{
             label:'Bytes',
-            data:``AGENT_TRAFFIC_OUT``,
+            data:[0],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -137,9 +137,9 @@
         let country = new Chart(tmp, {
             type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``COUNTRIES_NAMES``,
+            labels:['United States', 'Private Network', 'France'],
             datasets:[{
-            data:``COUNTRIES_TRAFFIC``,
+            data:[164, 93, 109],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -176,9 +176,9 @@
         let dst = new Chart(tmp, {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``IP_ADDERS``,
+            labels:['192.168.168.61', '162.159.136.234', '255.255.255.255', '34.237.55.221', '192.115.106.35', '52.203.204.201', '54.82.245.68', '35.231.145.151', '216.58.198.66', '151.101.1.195', '151.139.128.14', '54.69.207.70', '65.55.44.109', '151.101.66.49', '152.199.19.160', '13.225.249.115', '172.217.19.132'],
             datasets:[{
-            data:``IPS_VALUES``,
+            data:[25033, 1997, 3773, 246, 172, 2452, 193, 220, 108, 280, 218, 303, 4846, 154, 55, 293, 93],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -214,10 +214,10 @@
         let program = new Chart(tmp, {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``APPS_NAMES``,
+            labels:['Unknown'],
             datasets:[{
             label:'Bytes',
-            data:``APPS_VALUES``,
+            data:[40436],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -250,9 +250,9 @@
         let port = new Chart(tmp, {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:``PORTS_NUMBERS``,
+            labels:[443, 6205, 67, 5603, 5222, 54833, 53, 6382, 6373, 6367, 6312, 6370, 6362, 80, 6356, 57254, 6383, 6364, 6351, 6335, 6387, 6388, 6325],
             datasets:[{
-            data:``PORTS_TRAFFIC``,
+            data:[24054, 1997, 3773, 246, 288, 87, 443, 2452, 193, 220, 108, 280, 218, 248, 303, 85, 66, 154, 55, 293, 2771, 2009, 93],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -283,6 +283,6 @@
         }
         });
     </script>
-    <p style="text-align:left; font-size: 25px;">``ALERTS``</p>
+    <p style="text-align:left; font-size: 25px;">{}</p>
 </body>
 </html>
