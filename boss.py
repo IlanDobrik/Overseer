@@ -31,20 +31,20 @@ def html_page():
     copy = copy.replace(r"``AGENT_TRAFFIC_OUT``", str([value for value in OUTGOING.values()]) , 1)
     # ---------- COUNTRIES ----------
     save.append(country_traffic())
-    copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in save[-1].keys()]), 1)
-    copy = copy.replace(r"``COUNTRIES_TRAFFIC``", str([value for value in save[-1].values()]), 1)
+    copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in save[-1].keys()][:5]), 1)
+    copy = copy.replace(r"``COUNTRIES_TRAFFIC``", str([value for value in save[-1].values()][:5]), 1)
     # ----------- DSTIP -------------
     save.append(dstip_traffic())
-    copy = copy.replace(r"``IP_ADDERS``", str([key for key in save[-1].keys()]), 1)
-    copy = copy.replace(r"``IPS_VALUES``", str([value for value in save[-1].values()]), 1)
+    copy = copy.replace(r"``IP_ADDERS``", str([key for key in save[-1].keys()][:5]), 1)
+    copy = copy.replace(r"``IPS_VALUES``", str([value for value in save[-1].values()][:5]), 1)
     # ------------ PROG -------------
     save.append(program_traffic())
     copy = copy.replace(r"``APPS_NAMES``", str([key for key in save[-1].keys()]), 1)
     copy = copy.replace(r"``APPS_VALUES``", str([value for value in save[-1].values()]), 1)
     # ------------ PORTS ------------
     save.append(port_traffic())
-    copy = copy.replace(r"``PORTS_NUMBERS``", str([key for key in save[-1].keys()]), 1)
-    copy = copy.replace(r"``PORTS_TRAFFIC``", str([value for value in save[-1].values()]), 1)
+    copy = copy.replace(r"``PORTS_NUMBERS``", str([key for key in save[-1].keys()][:5]), 1)
+    copy = copy.replace(r"``PORTS_TRAFFIC``", str([value for value in save[-1].values()][:5]), 1)
     # ------------ ALERTS -----------
     copy = copy.replace(r"``ALERTS``", str(ALERTS), 1)
 
@@ -52,35 +52,14 @@ def html_page():
     with open("DB.dat", "r") as file:
         db = json.loads(file.read())
     
-    # issue - what happens if new agent is added? it will just add the dict insted of updating the existing one
-    # combining the DB with the new input
-    if len(db) != 0:
-        # going over each item in new input
-        for i in save:
-            index = 0
-            for index in range(0, len(db)):
-                # and trying to find match equivalent in the old dict
-                if sorted(db[index].keys()) != sorted(i.keys()):
-                    continue
-                for item in i.items():
-                    # once found, update value
-                    db[index][item[0]] += item[1]
-                index += 1
-                break
-            # if notfound, just append missing dict
-            if index == len(db) - 1:
-                for i in save:
-                    db.append(i)
-    else:
-        # if DB is empty, copy new info into it, insted of iterating over it
-        db = save
+    html_name = "Test"#str(time.asctime()).replace(' ', '-').replace(':', ';')    
+    db.update({html_name: save})
 
     # writing results back to file
     with open("DB.dat", "w") as file:
         file.write(json.dumps(db))
 
     # creating page
-    html_name = "Test"#str(time.asctime()).replace(' ', '-').replace(':', ';')
     with open(PAGES_FOLDER + html_name + '.html', 'w+') as file:
         file.write(copy)
 

@@ -61,9 +61,7 @@
                 'rgba(255, 159, 64, 0.6)'
             ]
         // ------------------ Chart1 -------------------- //
-        let tmp = document.getElementById('1').getContext('2d');
-
-        let incoming = new Chart(tmp, {
+        new Chart(document.getElementById('1').getContext('2d'), {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:``AGENT_NAMES``,
@@ -97,9 +95,7 @@
         });
 
         // ------------------ Chart2 -------------------- //
-        tmp = document.getElementById('2').getContext('2d');
-
-        let outgoing = new Chart(tmp, {
+        new Chart(document.getElementById('2').getContext('2d'), {
             type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:``AGENT_NAMES``,
@@ -132,9 +128,7 @@
         }
         });
         // ------------------ Chart3 -------------------- //
-        tmp = document.getElementById('3').getContext('2d');
-
-        let country = new Chart(tmp, {
+        new Chart(document.getElementById('3').getContext('2d'), {
             type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:``COUNTRIES_NAMES``,
@@ -171,9 +165,7 @@
         });
 
         // ------------------ Chart4 -------------------- //
-        tmp = document.getElementById('4').getContext('2d');
-
-        let dst = new Chart(tmp, {
+        new Chart(document.getElementById('4').getContext('2d'), {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:``IP_ADDERS``,
@@ -209,9 +201,7 @@
         }
         });
         // ------------------ Chart5 -------------------- //
-        tmp = document.getElementById('5').getContext('2d');
-
-        let program = new Chart(tmp, {
+        new Chart(document.getElementById('5').getContext('2d'), {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:``APPS_NAMES``,
@@ -245,9 +235,7 @@
         });
 
         // ------------------ Chart6 -------------------- //
-        tmp = document.getElementById('6').getContext('2d');
-
-        let port = new Chart(tmp, {
+        new Chart(document.getElementById('6').getContext('2d'), {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:``PORTS_NUMBERS``,
@@ -284,5 +272,6 @@
         });
     </script>
     <p style="text-align:left; font-size: 25px;">``ALERTS``</p>
+    <p style="text-align:left; font-size: 2px;"">*Note that piecharts only show the top 5 results </p>
 </body>
 </html>

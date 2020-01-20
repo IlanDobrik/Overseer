@@ -42,15 +42,15 @@
         new Chart(document.getElementById("1"),{
             "type":"line",
             "data":{
-                "labels":``REPORT_NAMES``,
+                "labels":['Test', 'Test2'],
                 "datasets":[
                     {"label":"Data",
-                    "data":``INCOMING_DATA``, 
+                    "data":[264184, 264182], 
                     "lineTension":0.01,
                     "borderColor":"rgb(75, 192, 192)"
                     },
                     {"label":"Average",
-                    "data":``INCOMING_AVG``, 
+                    "data":[264183.0, 264183.0], 
                     "fill":false,
                     "borderColor":"rgb(192, 75, 75)"
                     }]
@@ -61,15 +61,15 @@
         new Chart(document.getElementById("2"),{
             "type":"line",
             "data":{
-                "labels":``REPORT_NAMES``,
+                "labels":['Test', 'Test2'],
                 "datasets":[
                     {"label":"Data",
-                    "data":``OUTGOING_DATA``, 
+                    "data":[0, 0], 
                     "lineTension":0.01,
                     "borderColor":"rgb(75, 192, 192)"
                     },
                     {"label":"Average",
-                    "data":``OUTGOING_AVG``, 
+                    "data":[0.0, 0.0], 
                     "fill":false,
                     "borderColor":"rgb(192, 75, 75)"
                     }]
@@ -77,6 +77,6 @@
                 "options":{}
                 });
     </script>
-    <p style="text-align:left; font-size: 25px;">``ALERTS``</p>
+    <p style="text-align:left; font-size: 25px;">Something here</p>
 </body>
 </html>

@@ -22,7 +22,7 @@
             <h1 style="text-align: center; text-decoration: underline; font-size:50px;">
                 Overseer
             </h1>
-            <p style="text-align:left; font-size: 25px;">Time Created: Wed Jan  8 12:59:08 2020</p>
+            <p style="text-align:left; font-size: 25px;">Time Created: Wed Jan 15 12:55:48 2020</p>
     </div>
         
     <div class="container">
@@ -61,15 +61,13 @@
                 'rgba(255, 159, 64, 0.6)'
             ]
         // ------------------ Chart1 -------------------- //
-        let tmp = document.getElementById('1').getContext('2d');
-
-        let incoming = new Chart(tmp, {
+        new Chart(document.getElementById('1').getContext('2d'), {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:['127.0.0.1'],
             datasets:[{
             label:'Bytes',
-            data:[184002],
+            data:[264150],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -97,9 +95,9 @@
         });
 
         // ------------------ Chart2 -------------------- //
-        tmp = document.getElementById('2').getContext('2d');
+        
 
-        let outgoing = new Chart(tmp, {
+        new Chart(document.getElementById('2').getContext('2d'), {
             type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
             labels:['127.0.0.1'],
@@ -132,14 +130,14 @@
         }
         });
         // ------------------ Chart3 -------------------- //
-        tmp = document.getElementById('3').getContext('2d');
+        let tmp = document.getElementById('3').getContext('2d');
 
         let country = new Chart(tmp, {
             type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:['United States', 'Private Network', 'France'],
+            labels:['Private Network', 'United States'],
             datasets:[{
-            data:[164, 93, 109],
+            data:[82, 88],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -176,9 +174,9 @@
         let dst = new Chart(tmp, {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:['192.168.168.61', '162.159.136.234', '255.255.255.255', '34.237.55.221', '192.115.106.35', '52.203.204.201', '54.82.245.68', '35.231.145.151', '216.58.198.66', '151.101.1.195', '151.139.128.14', '54.69.207.70', '65.55.44.109', '151.101.66.49', '152.199.19.160', '13.225.249.115', '172.217.19.132'],
+            labels:['239.255.255.250', '224.0.0.252', '209.197.3.15', '104.17.64.4', '192.168.168.61', '224.0.0.251', '255.255.255.255', '162.159.135.234', '192.168.5.51', '162.254.197.42', '2.23.26.45', '72.246.151.66', '192.168.255.255', '111.221.29.254', '35.160.35.242'],
             datasets:[{
-            data:[25033, 1997, 3773, 246, 172, 2452, 193, 220, 108, 280, 218, 303, 4846, 154, 55, 293, 93],
+            data:[11397, 646, 147, 147, 14773, 1183, 8916, 1238, 342, 1056, 55, 109, 184, 2193, 89],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -217,7 +215,7 @@
             labels:['Unknown'],
             datasets:[{
             label:'Bytes',
-            data:[40436],
+            data:[42475],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -250,9 +248,9 @@
         let port = new Chart(tmp, {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:[443, 6205, 67, 5603, 5222, 54833, 53, 6382, 6373, 6367, 6312, 6370, 6362, 80, 6356, 57254, 6383, 6364, 6351, 6335, 6387, 6388, 6325],
+            labels:[56619, 59898, 63545, 8604, 8603, 443, 54115, 5353, 51545, 37020, 67, 8536, 34455, 57931, 57104, 53867, 8534, 53292, 64368, 60363, 64533, 3942, 8609, 80, 137, 51320, 27018, 62068, 55572, 51696, 63972, 8632, 57237, 8512, 59968, 50725, 50611, 62173, 62174],
             datasets:[{
-            data:[24054, 1997, 3773, 246, 288, 87, 443, 2452, 193, 220, 108, 280, 218, 248, 303, 85, 66, 154, 55, 293, 2771, 2009, 93],
+            data:[864, 64, 332, 147, 147, 12919, 332, 1183, 648, 332, 9258, 1238, 1274, 1056, 216, 864, 55, 648, 432, 1180, 64, 171, 109, 124, 184, 864, 1730, 132, 66, 864, 128, 2193, 432, 89, 864, 864, 128, 64, 216],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -284,5 +282,6 @@
         });
     </script>
     <p style="text-align:left; font-size: 25px;">{}</p>
+    <p style="text-align:left; font-size: 10px;"">*Note that piecharts only show the top 5 results </p>
 </body>
 </html>

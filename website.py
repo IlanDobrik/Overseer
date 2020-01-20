@@ -35,7 +35,6 @@ def reportPage(name):
 
 @app.route('/summarized')
 def summarizedReportPage():
-    # issue - i didnt come close to what i need to do. change DB
     # getting DB
     with open("DB.dat", "r") as file:
         db = json.loads(file.read())
@@ -45,12 +44,25 @@ def summarizedReportPage():
         copy = file.read()
 
     # editing
-    copy = copy.replace(r"``AGENTS``", str([key for key in db[0].keys()]))
-    copy = copy.replace(r"``INCOMING_DATA``", str([value for value in db[0].values()]))
-    copy = copy.replace(r"``OUTGOING_DATA``", str([value for value in db[1].values()]))
+    try:
+        copy = copy.replace(r"``REPORT_NAMES``", str([key for key in db.keys()]))
+        
+        POS = 0
+        copy = copy.replace(r"``INCOMING_DATA``", str([sum(total[POS].values()) for total in [report for report in db.values()]]))
+        copy = copy.replace(r"``INCOMING_AVG``", '[' +  (str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ', ')*(len([key for key in db.keys()]) - 1) + str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ']')
 
-    print(copy)
-    return copy
+        POS = 1
+        copy = copy.replace(r"``OUTGOING_DATA``", str([sum(total[POS].values()) for total in [report for report in db.values()]]))
+        copy = copy.replace(r"``OUTGOING_AVG``", '[' +  (str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ', ')*(len([key for key in db.keys()]) - 1) + str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ']')
+
+        copy = copy.replace(r"``ALERTS``", "Something here")
+
+        with open("./reports/tmp.html", 'w') as file:
+            file.write(copy)
+
+        return copy
+    except ZeroDivisionError:
+        return "No data to summarize"
 
 if __name__ == "__main__":
     # log = logging.getLogger('werkzeug')

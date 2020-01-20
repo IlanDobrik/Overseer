@@ -17,6 +17,7 @@ def spy(packet):
     return IP in packet and (TCP in packet or UDP in packet)
 
 def set_globals():
+    global LOCAL_IP, SERVER_ADDR, SERVER_PORT, SIZE
     msg = IP(dst="8.8.8.8")
     LOCAL_IP = msg[IP].src
 
