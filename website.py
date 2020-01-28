@@ -6,32 +6,27 @@ from flask import Flask, render_template
 
 
 PAGES_FOLDER = r'./reports/' #sys.argv[1]
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+
+def reportsTab(html):
+    reports = [x for x in os.listdir(PAGES_FOLDER) if ".html" in x][:10]
+    return html.replace("``REPORTS``", '\n'.join(['<a href="{}">{}</a>'.format(PAGES_FOLDER + report[:report.find(".html")], report[:report.find(".html")]) for report in reports]))
 
 @app.route('/')
 def home():
-    reports = [x for x in os.listdir(PAGES_FOLDER) if ".html" in x]
-    page = '''
-                <title>Reports</title>
-                <style>
-                    body {
-                        font-family: "Arial Black";
-                        font-size: 20px;
-                        }
-                </style>
-                <body>
-                <h1>Reports</h1>
-                <ul id="Reports" style="list-style-type: disc;">
-                    <li><a href="summarized">Summarized</a></li>
-                '''
-    for report in reports:
-        page += '<li><a href="{}">{}</a></li>'.format(PAGES_FOLDER + report, report[: report.find(".html")])
-    return page + "</ul></body>"
+    return reportsTab(open(r"./templates/home.html", 'r').read())
 
 @app.route(PAGES_FOLDER[1:] + '<string:name>')
 def reportPage(name):
-    return  open(r"./reports/" + name, 'r').read()
+    return  open(PAGES_FOLDER + name + ".html", 'r').read()
 
+@app.route("/archived")
+def archived():
+    reports = [x for x in os.listdir(PAGES_FOLDER) if ".html" in x]
+    page = ''
+    for report in reports:
+        page += '<li><a href="{}">{}</a></li>'.format(PAGES_FOLDER[1:] + report[: report.find(".html")], report[: report.find(".html")])
+    return reportsTab(open(r"./templates/archived.html", 'r').read().replace("``PAGES``", page))
 
 @app.route('/summarized')
 def summarizedReportPage():

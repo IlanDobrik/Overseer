@@ -11,8 +11,10 @@ INCOMING = {}
 OUTGOING = {}
 data = []
 # config
+SNIFF_COUNT = 200   # packets
+TIME_WAIT = 5       # in minutes 
+# only one is active ^ 
 LISTEN_PORT = 1313
-SNIFF_COUNT = 200
 PAGES_FOLDER = r"./reports/"
 
 
@@ -31,20 +33,20 @@ def html_page():
     copy = copy.replace(r"``AGENT_TRAFFIC_OUT``", str([value for value in OUTGOING.values()]) , 1)
     # ---------- COUNTRIES ----------
     save.append(country_traffic())
-    copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in save[-1].keys()][:5]), 1)
-    copy = copy.replace(r"``COUNTRIES_TRAFFIC``", str([value for value in save[-1].values()][:5]), 1)
+    copy = copy.replace(r"``COUNTRIES_NAMES``", str([key for key in save[-1].keys()][:13]), 1)
+    copy = copy.replace(r"``COUNTRIES_TRAFFIC``", str([value for value in save[-1].values()][:13]), 1)
     # ----------- DSTIP -------------
     save.append(dstip_traffic())
-    copy = copy.replace(r"``IP_ADDERS``", str([key for key in save[-1].keys()][:5]), 1)
-    copy = copy.replace(r"``IPS_VALUES``", str([value for value in save[-1].values()][:5]), 1)
+    copy = copy.replace(r"``IP_ADDERS``", str([key for key in save[-1].keys()][:13]), 1)
+    copy = copy.replace(r"``IPS_VALUES``", str([value for value in save[-1].values()][:13]), 1)
     # ------------ PROG -------------
     save.append(program_traffic())
     copy = copy.replace(r"``APPS_NAMES``", str([key for key in save[-1].keys()]), 1)
     copy = copy.replace(r"``APPS_VALUES``", str([value for value in save[-1].values()]), 1)
     # ------------ PORTS ------------
     save.append(port_traffic())
-    copy = copy.replace(r"``PORTS_NUMBERS``", str([key for key in save[-1].keys()][:5]), 1)
-    copy = copy.replace(r"``PORTS_TRAFFIC``", str([value for value in save[-1].values()][:5]), 1)
+    copy = copy.replace(r"``PORTS_NUMBERS``", str([key for key in save[-1].keys()][:13]), 1)
+    copy = copy.replace(r"``PORTS_TRAFFIC``", str([value for value in save[-1].values()][:13]), 1)
     # ------------ ALERTS -----------
     copy = copy.replace(r"``ALERTS``", str(ALERTS), 1)
 
@@ -93,7 +95,6 @@ def program_traffic():
     return l
 
 def port_traffic():
-    # issue ?
     l = {}
     for pack in data:
         if pack["remotePort"] not in l:
@@ -157,13 +158,17 @@ def main():
     while True:
         data.clear()
 
-        while len(data) < SNIFF_COUNT:
-            time.sleep(1)
+        # either genrate report by time or packet count
+        if SNIFF_COUNT != None:
+            while len(data) < SNIFF_COUNT:
+                time.sleep(1)
+        elif TIME_WAIT != None:
+            time.sleep(TIME_WAIT*60)
+
         print("Received {} packets".format(len(data)))
         print("Created: ", html_page())
 
 if __name__ == '__main__':
-    
     site = subprocess.Popen(r'python ./website.py ' + PAGES_FOLDER) # starting up the site
     try:
         main() # running main
