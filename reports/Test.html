@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
-    <title>Overseer</title>
+    <title>Report</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: "Arial Black";
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/static/style.css"/>
 </head>
 
 
 <body>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/summarized">Summery</a>
+        <a class="active" href="/archived">Reports</a>
+      </div>
+
     <div>
-            <p style="font-size: medium; text-align: right;">Created by: Ilan Dobromilsky</p>
             <h1 style="text-align: center; text-decoration: underline; font-size:50px;">
                 Overseer
             </h1>
-            <p style="text-align:left; font-size: 25px;">Time Created: Wed Jan 15 12:55:48 2020</p>
+            <p style="text-align:left; font-size: 25px;">Time Created: Thu Jan 30 11:21:15 2020</p>
     </div>
         
     <div class="container">
@@ -64,10 +65,10 @@
         new Chart(document.getElementById('1').getContext('2d'), {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:['127.0.0.1'],
+            labels:[],
             datasets:[{
             label:'Bytes',
-            data:[264150],
+            data:[],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -95,15 +96,13 @@
         });
 
         // ------------------ Chart2 -------------------- //
-        
-
         new Chart(document.getElementById('2').getContext('2d'), {
             type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:['127.0.0.1'],
+            labels:[],
             datasets:[{
             label:'Bytes',
-            data:[0],
+            data:[],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -130,14 +129,12 @@
         }
         });
         // ------------------ Chart3 -------------------- //
-        let tmp = document.getElementById('3').getContext('2d');
-
-        let country = new Chart(tmp, {
+        new Chart(document.getElementById('3').getContext('2d'), {
             type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:['Private Network', 'United States'],
+            labels:[],
             datasets:[{
-            data:[82, 88],
+            data:[],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -169,14 +166,12 @@
         });
 
         // ------------------ Chart4 -------------------- //
-        tmp = document.getElementById('4').getContext('2d');
-
-        let dst = new Chart(tmp, {
+        new Chart(document.getElementById('4').getContext('2d'), {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:['239.255.255.250', '224.0.0.252', '209.197.3.15', '104.17.64.4', '192.168.168.61', '224.0.0.251', '255.255.255.255', '162.159.135.234', '192.168.5.51', '162.254.197.42', '2.23.26.45', '72.246.151.66', '192.168.255.255', '111.221.29.254', '35.160.35.242'],
+            labels:[],
             datasets:[{
-            data:[11397, 646, 147, 147, 14773, 1183, 8916, 1238, 342, 1056, 55, 109, 184, 2193, 89],
+            data:[],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -207,15 +202,13 @@
         }
         });
         // ------------------ Chart5 -------------------- //
-        tmp = document.getElementById('5').getContext('2d');
-
-        let program = new Chart(tmp, {
+        new Chart(document.getElementById('5').getContext('2d'), {
         type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:['Unknown'],
+            labels:[],
             datasets:[{
             label:'Bytes',
-            data:[42475],
+            data:[],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -243,14 +236,12 @@
         });
 
         // ------------------ Chart6 -------------------- //
-        tmp = document.getElementById('6').getContext('2d');
-
-        let port = new Chart(tmp, {
+        new Chart(document.getElementById('6').getContext('2d'), {
         type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data:{
-            labels:[56619, 59898, 63545, 8604, 8603, 443, 54115, 5353, 51545, 37020, 67, 8536, 34455, 57931, 57104, 53867, 8534, 53292, 64368, 60363, 64533, 3942, 8609, 80, 137, 51320, 27018, 62068, 55572, 51696, 63972, 8632, 57237, 8512, 59968, 50725, 50611, 62173, 62174],
+            labels:[],
             datasets:[{
-            data:[864, 64, 332, 147, 147, 12919, 332, 1183, 648, 332, 9258, 1238, 1274, 1056, 216, 864, 55, 648, 432, 1180, 64, 171, 109, 124, 184, 864, 1730, 132, 66, 864, 128, 2193, 432, 89, 864, 864, 128, 64, 216],
+            data:[],
             backgroundColor:colors,
             borderWidth:1,
             borderColor:'#777',
@@ -282,6 +273,6 @@
         });
     </script>
     <p style="text-align:left; font-size: 25px;">{}</p>
-    <p style="text-align:left; font-size: 10px;"">*Note that piecharts only show the top 5 results </p>
+    <p style="text-align:left; font-size: 2px;"">*Note that piecharts only show the top 13 results </p>
 </body>
 </html>

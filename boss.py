@@ -11,7 +11,7 @@ INCOMING = {}
 OUTGOING = {}
 data = []
 # config
-SNIFF_COUNT = 200   # packets
+SNIFF_COUNT = None   # packets
 TIME_WAIT = 5       # in minutes 
 # only one is active ^ 
 LISTEN_PORT = 1313
@@ -114,6 +114,7 @@ class ClientThread(threading.Thread):
         INCOMING[self.caddress[0]] = 0
         OUTGOING[self.caddress[0]] = 0
         print (self.caddress, "connected")
+        ALERTS[self.caddress] = "Connected"
 
         while True:
             try:   

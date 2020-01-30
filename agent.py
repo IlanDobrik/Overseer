@@ -47,11 +47,11 @@ def get_location(IP):
     # sending request to a geo-location service that returns a json
     checked = checked_before(IP)
     if not checked:
-        response = requests.get("http://ip-api.com/json/"+IP)
-        data = json.loads(response.text)
-        if "country" in data:
+        try:
+            response = requests.get("http://ip-api.com/json/"+IP)
+            data = json.loads(response.text)
             return data["country"]
-        else:
+        except:
             return "ERROR"
 
 def get_program():
