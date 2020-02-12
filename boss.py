@@ -5,13 +5,14 @@ import time
 import threading
 import subprocess
 
+
 # global variables
 ALERTS = {}
 INCOMING = {}
 OUTGOING = {}
 data = []
 # config
-SNIFF_COUNT = None   # packets
+SNIFF_COUNT = 100   # packets
 TIME_WAIT = 5       # in minutes 
 # only one is active ^ 
 LISTEN_PORT = 1313
@@ -22,7 +23,7 @@ def html_page():
     with open(r"./templates/template.html", 'r') as file:
         copy = file.read()
 
-    save = [INCOMING, OUTGOING]
+    save = [INCOMING, OUTGOING, ALERTS]
     # ------------ TIME -------------
     copy = copy.replace(r"``TIME``", str(time.asctime()), 1)
     # ------------- IN --------------
@@ -51,8 +52,11 @@ def html_page():
     copy = copy.replace(r"``ALERTS``", str(ALERTS), 1)
 
     # getting DB
-    with open("DB.dat", "r") as file:
-        db = json.loads(file.read())
+    try:
+        with open("DB.dat", "r") as file:
+            db = json.loads(file.read())
+    except:
+        db = {}
     
     html_name = "Test"#str(time.asctime()).replace(' ', '-').replace(':', ';')    
     db.update({html_name: save})

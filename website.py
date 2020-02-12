@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import logging
 from flask import Flask, render_template
 
 
@@ -31,8 +30,11 @@ def archived():
 @app.route('/summarized')
 def summarizedReportPage():
     # getting DB
-    with open("DB.dat", "r") as file:
-        db = json.loads(file.read())
+    try:
+        with open("DB.dat", "r") as file:
+            db = json.loads(file.read())
+    except:
+        db = {}
 
     # getting summrized template
     with open(r"./templates/summarized.html", 'r') as file:
@@ -43,23 +45,27 @@ def summarizedReportPage():
         copy = copy.replace(r"``REPORT_NAMES``", str([key for key in db.keys()]))
         
         POS = 0
-        copy = copy.replace(r"``INCOMING_DATA``", str([sum(total[POS].values()) for total in [report for report in db.values()]]))
-        copy = copy.replace(r"``INCOMING_AVG``", '[' +  (str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ', ')*(len([key for key in db.keys()]) - 1) + str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ']')
+        copy = copy.replace(r"``INCOMING_DATA``", str([sum(total[POS].values()) for total in db.values()]))
+        copy = copy.replace(r"``INCOMING_AVG``", '[' +  (str(sum([sum(total[POS].values()) for total in db.values()])/len([sum(total[POS].values()) for total in db.values()])) + ', ')*(len([key for key in db.keys()]) - 1) + str(sum([sum(total[POS].values()) for total in db.values()])/len([sum(total[POS].values()) for total in db.values()])) + ']')
 
         POS = 1
-        copy = copy.replace(r"``OUTGOING_DATA``", str([sum(total[POS].values()) for total in [report for report in db.values()]]))
-        copy = copy.replace(r"``OUTGOING_AVG``", '[' +  (str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ', ')*(len([key for key in db.keys()]) - 1) + str(sum([sum(total[POS].values()) for total in [report for report in db.values()]])/len([sum(total[POS].values()) for total in [report for report in db.values()]])) + ']')
+        copy = copy.replace(r"``OUTGOING_DATA``", str([sum(total[POS].values()) for total in db.values()]))
+        copy = copy.replace(r"``OUTGOING_AVG``", '[' +  (str(sum([sum(total[POS].values()) for total in db.values()])/len([sum(total[POS].values()) for total in db.values()])) + ', ')*(len([key for key in db.keys()]) - 1) + str(sum([sum(total[POS].values()) for total in db.values()])/len([sum(total[POS].values()) for total in db.values()])) + ']')
 
-        copy = copy.replace(r"``ALERTS``", "Something here")
+        copy = copy.replace(r"``ALERTS``", str([alerts[3] for alerts in db]))
 
         with open("./reports/tmp.html", 'w') as file:
             file.write(copy)
 
         return copy
-    except ZeroDivisionError:
-        return "No data to summarize"
+    except:
+        return copy.replace(r"``ALERTS``", "Not enough data to summarize").replace(r'''<div class="container">
+        <h1>Incoming</h1>
+        <canvas id="1" width="600" height="280"></canvas>
+        <h1>Outgoing</h1>
+        <canvas id="2" width="600" height="280"></canvas>
+    </div>
+''', "")
 
 if __name__ == "__main__":
-    # log = logging.getLogger('werkzeug')
-    # log.setLevel(logging.ERROR)
     app.run(host="0.0.0.0", port=80)
