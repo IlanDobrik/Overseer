@@ -1,4 +1,5 @@
 import os
+import sys
 import socket
 import json
 import time
@@ -18,6 +19,30 @@ TIME_WAIT = 5       # in minutes
 LISTEN_PORT = 1313
 PAGES_FOLDER = r"./reports/"
 
+def config():
+    global SNIFF_COUNT, TIME_WAIT, LISTEN_PORT
+    
+    # check if any of the args appears more than one time
+    if not all([sys.argv.count("-l") < 2,  sys.argv.count("-m") < 2, sys.argv.count("-s") < 2]):
+        print("Invalid args")
+        os._exit(-1)
+
+    try:
+        # listen port
+        if "-l" in sys.argv and 0 < sys.argv[sys.argv.index("-l") + 1] < 65535:
+            LISTEN_PORT = sys.argv[sys.argv.index("-l") + 1]
+        # setting
+        if "-s" in sys.argv and int(sys.argv[sys.argv.index("-s") + 1]) > 0:
+            TIME_WAIT = SNIFF_COUNT = sys.argv[sys.argv.index("-s") + 1]
+        # report method (by defult will be time)
+        if "-m" in sys.argv:
+            if sys.argv[sys.argv.index("-m") + 1] == "time":
+                SNIFF_COUNT = None
+            if sys.argv[sys.argv.index("-m") + 1] == "pack":
+                TIME_WAIT = None
+    except:
+        print("Invalid args")
+        os._exit(-1)
 
 def html_page():
     with open(r"./templates/template.html", 'r') as file:
@@ -58,7 +83,7 @@ def html_page():
     except:
         db = {}
     
-    html_name = "Test"#str(time.asctime()).replace(' ', '-').replace(':', ';')    
+    html_name = "Test"#str(time.asctime()).replace(' ', '-').replace(':', ';')  # creating report name by time created
     db.update({html_name: save})
 
     # writing results back to file
@@ -157,6 +182,8 @@ def listen4clients():
         newthread.start()
 
 def main():
+    config()
+
     t = threading.Thread(target=listen4clients, daemon=True)
     t.start()
 

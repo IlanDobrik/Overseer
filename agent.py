@@ -21,15 +21,25 @@ def set_globals():
     msg = IP(dst="8.8.8.8")
     LOCAL_IP = msg[IP].src
 
-    for arg in sys.argv:
-        # searching for port
-        if type(arg) is int and 0 < arg < 65536:
-            SERVER_PORT = arg
-        # searching for server address
-        else:
-            result = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", arg)  
-            if type(arg) is str and result:
+    # check if any of the args appears more than one time
+    if not all([sys.argv.count("-l") < 2,  sys.argv.count("-s") < 2, sys.argv.count("-i") < 2]):
+        print("Invalid args")
+        os._exit(-1)
+
+    try:
+        # port
+        if "-l" in sys.argv and 0 < sys.argv[sys.argv.index("-l") + 1] < 65535:
+            LISTEN_PORT = sys.argv[sys.argv.index("-l") + 1]
+        # size
+        if "-s" in sys.argv and int(sys.argv[sys.argv.index("-s") + 1]) > 0:
+            pass
+        # server ip
+        if "-i" in sys.argv:
+            if result := re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", sys.argv[sys.argv.index("-s") + 1]): # a kinda close regex to a valid ip
                 SERVER_ADDR = result.group()
+    except:
+        print("Invalid args")
+        os._exit(-1)
 
 def checked_before(IP):
     # checking if IP has been checked before by the geo-location service
@@ -113,10 +123,10 @@ def summarize(packet):
     summarized_packets.append(pack)
 
 def main():
+    set_globals()
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((SERVER_ADDR, SERVER_PORT))
-
-    set_globals()
     
     print("Collecting packets...")
 
