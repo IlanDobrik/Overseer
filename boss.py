@@ -48,7 +48,7 @@ def html_page():
     with open(r"./templates/template.html", 'r') as file:
         copy = file.read()
 
-    save = [INCOMING, OUTGOING, ALERTS]
+    save = [INCOMING, OUTGOING]#, ALERTS] # cause problem in json?
     # ------------ TIME -------------
     copy = copy.replace(r"``TIME``", str(time.asctime()), 1)
     # ------------- IN --------------
@@ -88,6 +88,8 @@ def html_page():
 
     # writing results back to file
     with open("DB.dat", "w") as file:
+        print(db)
+        print(type(db))
         file.write(json.dumps(db))
 
     # creating page
