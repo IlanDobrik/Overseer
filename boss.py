@@ -48,7 +48,7 @@ def html_page():
     with open(r"./templates/template.html", 'r') as file:
         copy = file.read()
 
-    save = [INCOMING, OUTGOING]#, ALERTS] # cause problem in json?
+    save = [INCOMING, OUTGOING, ALERTS] # cause problem in json?
     # ------------ TIME -------------
     copy = copy.replace(r"``TIME``", str(time.asctime()), 1)
     # ------------- IN --------------
@@ -145,7 +145,7 @@ class ClientThread(threading.Thread):
         INCOMING[self.caddress[0]] = 0
         OUTGOING[self.caddress[0]] = 0
         print (self.caddress, "connected")
-        ALERTS[self.caddress] = "Connected"
+        ALERTS[self.caddress[0]] = "Connected"
 
         while True:
             try:   
@@ -164,7 +164,7 @@ class ClientThread(threading.Thread):
         
         # if agent disconnects, it will break the while loop.
         # notifying in ALERTS
-        ALERTS[self.caddress] = "Disconnected"
+        ALERTS[self.caddress[0]] = "Disconnected"
         INCOMING.pop(self.caddress[0], None)
         OUTGOING.pop(self.caddress[0], None)
         print(self.caddress , "disconnected")
